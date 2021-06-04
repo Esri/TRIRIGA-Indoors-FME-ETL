@@ -1,0 +1,1016 @@
+# TRIRIGA-Indoors-FME-ETL
+# **TRIRIGA to Indoors ETL -- User Guide**
+
+## May 5, 2021
+
+(insert Esri image, copyright, credit to Safe software, etc.)\
+\
+![](media/image1.png){width="2.5in" height="0.9772725284339457in"}
+
+![](media/image3.png){width="3.1465037182852145in" height="1.575in"}\
+\
+![Logo, icon Description automatically
+generated](media/image4.png){width="0.9545450568678915in"
+height="0.9545450568678915in"}\
+ArcGIS Indoors
+
+[Audience (Who are we?)](#audience)
+
+[Introduction (What is this?)](#introduction)
+
+[How It Works](#how-it-works)
+
+[Requirements (What do we need?)](#requirements)
+
+[TRIRIGA to Indoors Spatial ETL Tools and Resources](#tririga-to-indoors-spatial-etl-tools-and-resources)
+
+[IBM TRIRIGA](#ibm-tririga)
+
+[CAD](#cad)
+
+[ArcGIS Pro w/Data Interoperability Extension](#arcgis-pro-wdata-interoperability-extension)
+
+[Workflow (How do we do it?) 5](#workflow)
+
+[TRIRIGA](#retrieve-tririga-spec-ids)
+
+[Import Spatial ETL Tools](#import-spatial-etl-tools)
+
+[Run "Create TRIRIGA To Indoors Field Mapping Template" Spatial ETL Tool](#run-create-tririga-to-indoors-field-mapping-template-spatial-etl-tool)
+
+[Prepare the Import TRIRIGA To Indoors Tool Inputs](#prepare-the-import-tririga-to-indoors-tool-inputs)
+
+[Inputs](#_Toc63157656)
+
+[AutoCAD files](#input-floor-plans-autocad-files)
+
+[Input Field Mapping Template File](#input-field-mapping-template-file)
+
+[Input CAD Layer Mapping Template File](#input-cad-layer-mapping-template-file)
+
+[Indoors Template File Geodatabase](#target-indoors-geodatabase)
+
+[Georeference CAD](#georeference-cad)
+
+[Analyze CAD](#analyze-cad)
+
+[Populate TRIRIGA to Indoors Field Mapping Template](#populate-tririga-to-indoors-field-mapping-template)
+
+[Populate CAD Layer Mapping Template](#populate-cad-layer-mapping-template)
+
+[Prepare the Indoors Template File Geodatabase](#prepare-the-target-indoors-geodatabase)
+
+[Run "Import TRIRIGA To Indoors" Spatial ETL Tool](#run-import-tririga-to-indoors-spatial-etl-tool)
+
+[Caveats](#caveats)
+
+[FAQs /](#faqs)
+
+## 
+
+## Audience
+
+This guide is intended for people:
+
+-   familiar with their site
+
+-   with intermediate IBM TRIRIGA experience
+
+-   with intermediate ArcGIS Pro experience
+
+## Introduction
+
+IBM TRIRIGA is an integrated workplace management solution (IWMS) that
+includes modules designed to accommodate the needs of operational,
+financial and environmental performance. Key features include
+environment and energy management, capital project management, lease
+accounting and facility management.
+
+***Esri*** has partnered with ***Safe Software*** to create a ***spatial
+ETL tool*** to be used with ArcGIS Pro's Data Interoperability extension
+to migrate data from ***IBM TRIRIGA*** and associated CAD drawings to
+the Indoors Model.
+
+The ETL tool appears in a toolbox in ArcGIS Pro. It extracts basic
+floorplan features from CAD drawings attached in TRIRIGA, enriching them
+with metadata from TRIRIGA, and outputting to a geodatabase for use in
+ArcGIS Indoors. It is unidirectional (TRIRIGA to Indoors).
+
+The following data is processed by the spatial ETL tools:
+
+-   Properties / Sites
+
+-   Buildings / Facilities
+
+-   Floors / Levels
+
+-   Spaces / Units
+
+-   Details
+
+-   Space Groups / Areas
+
+-   Employees, Consultants
+
+    -   People, External Contacts, Visitor Log don't appear to be
+        assignable to Spaces
+
+### How It Works
+
+There are 2 spatial ETL tools we use:
+
+1)  Create TRIRIGA To Indoors Field Mapping Template
+
+2)  Import TRIRIGA To Indoors
+
+The **Create TRIRIGA To Indoors Field Mapping Template** spatial ETL
+tool queries TRIRIGA's SOAP interface to catalog all the available
+business objects and their attributes. The output of this is an Excel
+workbook with multiple worksheets. The worksheets allow someone to map
+TRIRIGA business object attributes to Indoors feature class attributes.
+Each worksheet contains a column with real sample values to aid in
+mapping.
+
+The **Import TRIRIGA To Indoors** spatial ETL tool updates an Indoors
+geodatabase with CAD data and its matching TRIRIGA record information.
+It uses the TRIRIGA to Indoors Field Mapping Template (hereafter "field
+map") to map the TRIRIGA attributes to the desired Indoors attributes.
+The tool assumes and requires that the CAD files are the ones "attached"
+and "synced" using the TRIRIGA CAD Integrator plugin.
+
+The CAD data contains unique TRIRIGA Spec ID's (attached as XDATA
+records linked to the AutoCAD entity ID) for each feature that can be
+extracted in the spatial ETL tool. These ID's are used to query the
+TRIRIGA database for all the TRIRIGA information for each record's
+associated CAD features. The CAD data, TRIRIGA record information, and
+the field map are used to populate the corresponding records in the
+Indoors geodatabase.
+
+If the Indoors geodatabase is empty, the CAD data and TRIRIGA record
+information will be loaded directly without needing to compare it. If
+the Indoors geodatabase is not empty, the spatial ETL tool will update
+the geodatabase with any changes in the TRIRIGA record information and
+CAD data since the last successful run. After the first successful run,
+a status file (lastrun.date file) is created with the run date. This is
+stored and expected to be in the same folder as the CAD to Indoors
+mapping file. After each successful run, the status file is updated with
+the run date. It contains one column with the last run, date/time.
+
+In addition to the field map which a user configures, there are internal
+mappings that the spatial ETL tool uses in order to automatically map
+specific TRIRIGA fields or calculations to specific Indoors fields. See
+the appendix for the list of automatically mapped fields.
+
+The data for the People FC only comes from TRIRIGA (i.e. does not come
+from CAD). However, a person's assigned Unit is used to create a point
+geometry for them. Since there are no sites or facilities in the CAD
+files "attached" in TRIRIGA, they are created as an amalgamation of
+their sub-feature classes.
+
+## Requirements
+
+### TRIRIGA to Indoors Spatial ETL Tools and Resources
+
+The tool can be downloaded from the FME Hub
+[here](https://hub.safe.com/publishers/safe-lab/templates/tririgatoarcgisindoors).
+
+The resources used with the tool are provided in a zip file that
+includes the following artifacts:
+
+1)  Indoors Geodatabase Template (extended Indoors for TRIRIGA)
+    (indoors-extended.gdb)
+
+2)  Indoors Geodatabase Template (default) (indoors-default.gdb)
+
+3)  TRIRIGA To Indoors Field Mapping Template (populated with extended
+    Indoors for TRIRIGA)
+
+4)  CAD Layer Mapping Template (default/blank)
+
+5)  Transformation definition file for CSMAP
+    (***WGS_1984\_(ITRF08)\_To_NAD_1983_2011.fme***). This is required
+    for users that have data in NAD83(2011).
+
+### IBM TRIRIGA
+
+-   TRIRIGA Application Platform v3.6.1 or later
+
+-   The CAD drawing files for all floorplans must be attached and
+    published to TRIRIGA using the IBM TRIRIGA CAD Integrator/Publisher
+    software for AutoCAD. The CAD Integrator is its own license on top
+    of a standard module license.
+
+    -   All spaces intended to bring into Indoors included were attached
+        and published with the drawing
+
+    -   TRIRIGA-related layers appear in CAD
+
+        -   triSpaceLayer (Spaces/Units)
+
+        -   triGrossAreaLayer (Floors/Levels)
+
+        -   triMeasuredGrossAreaLayer (Floors/Levels)
+
+        -   triLabelLayer (Spaces/Units labels)
+
+    -   All spaces must have unique labels in the triLabelLayer;
+        otherwise the result is a single multi-part record.
+
+-   TRIRIGA application server user account created and granted with
+    admin access for use by the ETL.
+
+-   TRIRIGA application server host URL.
+
+### CAD
+
+-   Exact CAD drawing files mentioned above accessible to the ETL.
+
+### ArcGIS Pro w/Data Interoperability Extension
+
+-   ArcGIS Pro v2.7 or later with access to the TRIRIGA application
+    server
+
+-   Data Interoperability Extension v2.7 or later
+
+-   User licenses
+
+    -   ArcGIS Pro Advanced named user license (included with a license
+        for ArcGIS Indoors)
+
+        -   This can be named user or single use
+
+    -   Data Interoperability Extension license (included with a license
+        for ArcGIS Indoors)
+
+## Workflow
+
+### Retrieve TRIRIGA Spec ID's
+
+-   The spatial ETL tools require TRIRIGA Spec ID's for Buildings and
+    Floors so retrieve them.
+
+    -   In TRIRIGA, locate a report that can output a list of all the
+        **buildings** and their Spec ID's (e.g. My Reports, System
+        Reports, title=All Active Locations).
+
+        -   Verify it has the column \"System Record ID
+            (triRecordIdSY)\", otherwise add it.
+
+    -   In TRIRIGA, locate a report that can output a list of all the
+        **floors** and their Spec ID's (e.g. My Reports, System Reports,
+        title=Active Floors).
+
+        -   Verify it has the column \"System Record ID
+            (triRecordIdSY)\", otherwise add it.
+
+    -   Run the reports and download the results as Excel files.
+
+    -   In the reports, take note of the System Record ID's for each
+        **building** and **floor**. These System Record ID's are the
+        Spec ID's used to populate the CAD Layer Mapping Template.
+
+### Import Spatial ETL Tools
+
+-   Open ArcGIS Pro with user license of ArcGIS Pro Advanced and the
+    Data Interoperability Extension
+
+-   Create a project, optionally creating a default map.
+
+-   In Windows Explorer, add the TRIRIGA to Indoors Spatial ETL Tools
+    and Resources zip file to the project folder.
+
+-   Add to the Pro project the toolbox containing the ETL tools
+
+    -   In the Catalog pane, in the Project tab, right-click on
+        Toolboxes and choose "Add Toolbox".
+
+    -   Locate the toolbox in the project folder, then click "OK".
+
+-   (Maya/Tom prefer alternative to above to manually create the toolbox
+    and add the spatial ETL tools found on FME Hub)
+
+### Run "Create TRIRIGA To Indoors Field Mapping Template" Spatial ETL Tool
+
+This tool will generate the "TRIRIGA to Indoors Field Mapping Template"
+Microsoft Excel Workbook.
+
+-   Locate the "Create TRIRIGA To Indoors Field Mapping Template" tool
+    in the toolbox in the catalog and launch (double-click) it.
+
+-   Enter the required parameters
+
+    -   Host URL
+
+    -   Output Field Mapping Template
+
+        -   Click the browse icon to choose the path where the generated
+            file will be placed. Be sure to give it an extension of
+            ".xlsx".
+
+    -   User Name
+
+    -   Password
+
+-   Run the tool. Please be patient as the time this takes varies
+    depending on the size of the TRIRIGA system configuration and the
+    network connection. Click the "View Details" link at the bottom of
+    the tool to launch a dialog where you can see output messages as it
+    runs. Once complete, you should see a message stating that the
+    mapping template was successfully generated along with statistics
+    about which TRIRIGA fields were populated in the mapping template.
+
+### Prepare the Import TRIRIGA To Indoors Tool Inputs
+
+This tool takes these file inputs which need to be prepared:
+
+-   Input Floor Plans (AutoCAD files)
+
+-   Input Field Mapping Template File
+
+-   Input CAD Layer Mapping Template File
+
+-   Target Indoors Geodatabase ***or*** Target Indoors SDE Connection
+    File
+
+    -   Only pick one
+
+##### Input Floor Plans (AutoCAD files)
+
+All AutoCAD files to be mapped will need to be georeferenced and in a
+central location. You'll also need to determine which CAD layers you
+want to use for the Details feature class. Note that during the import
+process CAD blocks will be exploded into components. This will not
+affect the source CAD file.
+
+##### Input Field Mapping Template File
+
+The **Input Field Mapping Template File** is used to translate TRIRIGA
+fields to attributes in the Indoors Model. Fields assigned here take
+***priority*** over those assigned in the **Input CAD Layer Mapping
+Template File**.
+
+##### Input CAD Layer Mapping Template File
+
+The **Input CAD Layer Mapping Template File** is used to:
+
+1)  For Levels, it supplies these columns
+
+    a.  name
+
+    b.  name_short
+
+    c.  description
+
+    d.  access_type
+
+    e.  level_number
+
+    f.  vertical order
+
+    g.  elevation/height
+
+2)  For Details, it uses the "DETAILS" column to filter the CAD layers
+    used
+
+> (start reviewing here again)
+
+3)  For Facilities, it supplies the
+
+    a.  elevation information that is neither in the CAD file nor
+        TRIRIGA
+
+    b.  rotation
+
+correlate buildings, floors, spaces, and linework in CAD and TRIRIGA to
+the Facilities, Levels, Units, Areas, and Details feature classes and
+tables in the Indoors Model.
+
+##### Target Indoors Geodatabase
+
+The **Target Indoors Geodatabase** is a file geodatabase. You can use
+the default or extended Indoors Geodatabase Templates as a starting
+point for this for the working file geodatabase.
+
+##### Target Indoors SDE Connection File
+
+The **Target Indoors SDE Connection File** is a connection file used by
+ArcGIS Pro to connect to an Enterprise Geodatabase. You'll use this if
+your target geodatabase is an Enterprise geodatabase as opposed to a
+file geodatabase.
+
+#### Georeference CAD
+
+You'll need to georeference the CAD drawings, populate the 2 mapping
+templates, then prepare the Target Indoors Geodatabase before use.
+
+Georeferencing is the process of spatially adjusting a CAD drawing
+without changing the original source data. CAD floorplan drawings
+typically do not come georeferenced (i.e. no real-world X/Y/Z location).
+
+-   Add a new map to your ArcGIS Pro project.
+
+-   Change the coordinate system of the map. Right-click on Map in the
+    Contents pane and select Properties.
+
+-   Under Coordinate Systems change the CurrentXY Coordinate System to
+    an appropriate coordinate system for your site.
+
+![](media/image5.png){width="5.5in" height="3.0520833333333335in"}
+
+-   Add the first floor CAD drawing from your desired facility to the
+    map. In the \"Map\" tab, \"Layer\" group, click the \"Add Data\"
+    button, then choose the CAD file
+
+-   Select one of the CAD layers in the Contents pane. The CAD Layer
+    Manage tab appears. Click it.
+
+-   Using the Define Projection tool in the CAD Layer tab, assign the
+    CAD layer the same coordinate system you just specified for your
+    map. Run the tool. The output is a .prj file in the same file
+    location as your CAD drawing.
+
+> ![](media/image6.png){width="0.6666666666666666in"
+> height="0.7916666666666666in"}
+>
+> ![](media/image7.png){width="2.8645833333333335in"
+> height="1.8196412948381453in"}
+
+-   To assign the same coordinate system to all your CAD drawings you
+    can create a universal projection file. To do this, save and close
+    your ArcGIS Pro project. Go to File Explorer, open the folder
+    containing your CAD drawings and rename the .prj you created in the
+    previous step to **esri_cad.prj**. This will assign every
+    un-projected CAD drawing in your folder the same coordinate system.
+
+-   Open your ArcGIS Pro project again.
+
+-   With a CAD layer selected, navigate to the CAD Layer tab and select
+    Georeference. This contains tools that allow you to move, scale,
+    rotate, and add control points. Use these tools as needed to scale
+    and position your drawing.
+
+-   Once positioned, hit Save. This action creates a .wld file with the
+    same name and location as your .dwg file. This file stores
+    coordinates, allowing ArcGIS Pro to generate the floorplan
+    automatically with the correct scale and position when re-opening it
+    in a map. Georeferencing in ArcGIS Pro does not edit the CAD
+    drawing.
+
+-   To give the rest of the floorplans in your facility the same scale
+    and position, create a copy of the .wld from the last step for every
+    level in your facility and rename them so that each .dwg has an
+    accompanying .wld. ![](media/image8.png){width="5.0in"
+    height="1.1666666666666667in"}
+
+-   Add the rest of your floorplans in ArcGIS Pro and verify that all
+    floors within a facility line up properly by inspecting CAD features
+    that remain consistent throughout all floors, such as stairways and
+    elevator shafts. The floorplans may not line up depending on how the
+    CAD drawings were authored. If the files do not line up, use the
+    georeferencing tools to move the files appropriately.
+
+-   For more information on georeferencing in ArcGIS Pro, please see the
+    [online
+    documentation](https://pro.arcgis.com/en/pro-app/latest/help/data/cad/georeferencing-cad-data.htm).
+
+#### Analyze CAD
+
+CAD files come with many layers, some of which you'll want to use in the
+Details feature class. The Details feature class contains line work
+which provides context to your Indoor map and typically includes walls,
+windows, doors, elevator shafts, stair treads, furniture, etc.
+
+![A picture containing box and whisker chart Description automatically
+generated](media/image9.png){width="3.2517574365704287in"
+height="3.1041666666666665in"}
+
+You'll need to know the layer names that these line features are on. If
+you are unfamiliar with the drawing, you'll need to open it in ArcGIS
+Pro or your preferred drawing editor to determine them. In ArcGIS Pro,
+when first adding CAD to a map, layer types are grouped, for example:
+
+![Text Description automatically
+generated](media/image10.png){width="2.2913801399825022in"
+height="1.5102274715660542in"}
+
+The layers you'll want are in the polyline type group, for example:
+
+![A picture containing table Description automatically
+generated](media/image11.png){width="1.7914424759405074in"
+height="2.2497189413823273in"}
+
+Write down these names for use later in populating the **CAD Layer
+Mapping Template**.
+
+#### Populate TRIRIGA to Indoors Field Mapping Template
+
+This template contains information for mapping desired fields in TRIRIGA
+to ArcGIS Indoors. It is an Excel workbook containing these worksheets
+which relates to the corresponding Indoors feature classes:
+
+-   **Sites** Field Map
+
+-   **Facilities** Field Map
+
+-   **Levels** Field Map
+
+-   **Units** Field Map
+
+-   **People** Field Map
+
+Each worksheet contains these columns:
+
+-   Esri Indoor Field
+
+-   TRIRIGA Field
+
+-   Sample TRIRIGA Field Value
+
+For each row you'd like to map, populate its **Esri Indoor Field** cell
+with the attribute for the related feature class. Below are some common
+mappings. These are standard TRIRIGA fields, but their names may vary in
+your organization's TRIRIGA system. Note that if you'd like to use the
+same TRIRIGA field for multiple Indoors fields, you can simply
+copy/paste that row and assign another Indoor field. For example, see
+below where the **Site** sheet's Indoors fields **NAME** and
+**NAME_LONG** *both* map to the TRIRIGA field
+**Site.RecordInformation.triNameTX**.
+
+Note that fields mapped here take priority over those specified in the
+**CAD Layer Mapping Template**, *except* these so there is no need to
+map them here (they'll be ignored) as they are automatically mapped to
+the associated TRIRIGA record's Spec ID:
+
+-   SITE_ID
+
+-   FACILITY_ID
+
+-   LEVEL_ID
+
+-   UNIT_ID
+
+  ---------- ------------------ ------------------------------------------
+ | Sheet      | Esri Indoor Field | Tririga Field                                         |
+|------------|-------------------|-------------------------------------------------------|
+| Sites      | ADDRESS           | Site.RecordInformation.triAddressTX                   |
+| Sites      | AREA_UM           | Site.RecordInformation.triAreaUO                      |
+| Sites      | SOURCE_NAME       | Site.RecordInformation.triBusinessObjectNameSY        |
+| Sites      | LOCALITY          | Site.RecordInformation.triCityTX                      |
+| Sites      | COUNTRY           | Site.RecordInformation.triCountryTX                   |
+| Sites      | DESCRIPTION       | Site.RecordInformation.triDescriptionTX               |
+| Sites      | CONTACT_PHONE     | Site.RecordInformation.triMainPhoneTX                 |
+| Sites      | NAME              | Site.RecordInformation.triNameTX                      |
+| Sites      | NAME_LONG         | Site.RecordInformation.triNameTX                      |
+| Sites      | SOURCE_PATH       | Site.RecordInformation.triPathTX                      |
+| Sites      | PROVINCE          | Site.RecordInformation.triStateProvTX                 |
+| Sites      | POSTAL_CODE       | Site.RecordInformation.triZipPostalTX                 |
+| Facilities | ADDRESS           | Building.RecordInformation.triAddressTX               |
+| Facilities | AREA_UM           | Building.RecordInformation.triAreaUO                  |
+| Facilities | SOURCE_NAME       | Building.RecordInformation.triBusinessObjectNameSY    |
+| Facilities | LOCALITY          | Building.RecordInformation.triCityTX                  |
+| Facilities | COMMON_NAME       | Building.RecordInformation.triCommonNameTX            |
+| Facilities | COUNTRY           | Building.RecordInformation.triCountryTX               |
+| Facilities | DESCRIPTION       | Building.RecordInformation.triDescriptionTX           |
+| Facilities | AREA_GROSS        | Building.RecordInformation.triGrossAreaNU             |
+| Facilities | LEGAL_NAME        | Building.RecordInformation.triLegalNameTX             |
+| Facilities | CONTACT_PHONE     | Building.RecordInformation.triMainPhoneTX             |
+| Facilities | NAME              | Building.RecordInformation.triNameTX                  |
+| Facilities | SITE_NAME         | Building.RecordInformation.triParentPropertyTX        |
+| Facilities | SOURCE_PATH       | Building.RecordInformation.triPathSY                  |
+| Facilities | AREA_RENTABLE     | Building.RecordInformation.triRentableAreaNU          |
+| Facilities | PROVINCE          | Building.RecordInformation.triStateProvTX             |
+| Facilities | AREA_USABLE       | Building.RecordInformation.triUsableAreaNU            |
+| Facilities | AREA_NET          | Building.RecordInformation.triUsableAreaNU            |
+| Facilities | POSTAL_CODE       | Building.RecordInformation.triZipPostalTX             |
+| Facilities | USE_TYPE          | Classification.Classified by triBuildingClass.Name    |
+| Levels     | AREA_UM           | Floor.RecordInformation.triAreaUO                     |
+| Levels     | SOURCE_NAME       | Floor.RecordInformation.triBusinessObjectNameSY       |
+| Levels     | AREA_GROSS        | Floor.RecordInformation.triGrossAreaImpNU             |
+| Levels     | NAME              | Floor.RecordInformation.triNameTX                     |
+| Levels     | SOURCE_PATH       | Floor.RecordInformation.triPathTX                     |
+| Levels     | AREA_RENTABLE     | Floor.RecordInformation.triRentableAreaNU             |
+| Levels     | AREA_USABLE       | Floor.RecordInformation.triUsableAreaNU               |
+| Levels     | AREA_NET          | Floor.RecordInformation.triUsableAreaNU               |
+| Levels     | FACILITY_NAME     | Location.Parent Building.Name                         |
+| Levels     | SITE_NAME         | Location.Parent Property.Name                         |
+| Units      | USE_TYPE          | Classification.Classified by Space Class Current.Name |
+| Units      | FACILITY_NAME     | Location.Parent Building.Name                         |
+| Units      | LEVEL_NAME        | Location.Parent Floor.Name                            |
+| Units      | SITE_NAME         | Location.Parent Property.Name                         |
+| Units      | AREA_GROSS        | Space.RecordInformation.triAreaNU                     |
+| Units      | AREA_UM           | Space.RecordInformation.triAreaUO                     |
+| Units      | SOURCE_NAME       | Space.RecordInformation.triBusinessObjectNameSY       |
+| Units      | CAPACITY          | Space.RecordInformation.triCapacityNU                 |
+| Units      | DESCRIPTION       | Space.RecordInformation.triDescriptionTX              |
+| Units      | NAME              | Space.RecordInformation.triNameTX                     |
+| Units      | NAME_LONG         | Space.RecordInformation.triNameTX                     |
+| Units      | OCCUPANCY_STATUS  | Space.RecordInformation.triOccupancyStatusCL          |
+| Units      | SOURCE_PATH       | Space.RecordInformation.triPathSY                     |
+| Units      | UTILIZATION       | Space.RecordInformation.triTotalHeadcountNU           |
+| Units      | AREA_NET          | Space.RecordInformation.triUsableAreaNU               |
+| Units      | ASSIGNABLE        | Space.triCurrentSpaceClass.triAssignableBL            |
+| Units      | BOMA_TYPE         | Space.triCurrentSpaceClass.triBOMATypeLI              |
+| Units      | BUILDING_COMMON   | Space.triCurrentSpaceClass.triBuildingCommonBL        |
+| Units      | EXTERIOR_GROSS    | Space.triCurrentSpaceClass.triExteriorGrossBL         |
+| Units      | FLOOR_COMMON      | Space.triCurrentSpaceClass.triFloorCommonBL           |
+| Units      | INTERIOR_GROSS    | Space.triCurrentSpaceClass.triInteriorGrossBL         |
+| Units      | OSCRE_CODE        | Space.triCurrentSpaceClass.triOSCRECodeTX             |
+| Units      | OSCRE_STANDARD    | Space.triCurrentSpaceClass.triOSCREStandardBL         |
+| Units      | PROPERTY_COMMON   | Space.triCurrentSpaceClass.triPropertyCommonBL        |
+| Units      | RENTABLE          | Space.triCurrentSpaceClass.triRentableBL              |
+| Units      | USABLE            | Space.triCurrentSpaceClass.triUsableBL                |
+| Units      | VACANT_COMMON     | Space.triCurrentSpaceClass.triVacantCommonBL          |
+| People     | JOB_TITLE         | Classification.Entitlement Role For.Name              |
+| People     | ORGANIZATION      | Organization.Primary Organization.Name                |
+| People     | ORG_LEVEL_1       | Organization.Primary Organization.Name                |
+| People     | COST_CENTER       | People.Detail.triCostCenterTX                         |
+| People     | EMAIL             | People.Detail.triEmailTX                              |
+| People     | FIRSTNAME         | People.Detail.triFirstNameTX                          |
+| People     | LASTNAME          | People.Detail.triLastNameTX                           |
+| People     | KNOWNAS           | People.Detail.triNameTX                               |
+| People     | CONTACT_PHONE     | People.Detail.triWorkPhoneTX                          |
+| People     | COMPANY_NAME      | People.triPrimaryOrganization.triOrganizationName     |
+| People     | MANAGER_TO        | triPeople.Manages.Name                                |
+| People     | REPORTS_TO        | triPeople.Reports To.Name                             |
+  ---------- ------------------ ------------------------------------------
+
+#### Populate CAD Layer Mapping Template
+
+This template contains information for mapping desired CAD drawings
+attached in TRIRIGA to ArcGIS Indoors, specifically:
+
+-   Buildings / Facilities
+
+-   Floors / Levels
+
+-   Spaces / Units
+
+-   Details
+
+It is an Excel workbook containing these worksheets which relates to the
+corresponding Indoors feature classes:
+
+-   CAD Layer to FC Mapping
+
+-   Facility Properties
+
+-   Level Properties
+
+Each worksheet contains columns specific to their mapping (translation)
+requirements as shown below.
+
+-   **CAD Layer to FC Mapping** sheet with the columns below. *[The
+    columns **not mentioned below** are mapped automatically to the
+    "tri" CAD layers so do not need to be populated in this
+    sheet]{.ul}*. (Dave, confirm this, it doesn't appear this way for
+    the Cisco data where Maya mapped over other CAD layers to UNIT_ID,
+    UNIT_NAME, and USE_TYPE) -- triLabel layer is not used
+    automatically. UNIT_ID is always mapped from the TRIRIGA Space
+    record's Spec_ID. UNIT_NAME and USE_TYPE get mapped in the
+    fieldmapping.xlsx.
+
+    -   DETAILS
+
+        -   Add a row for each CAD layer to be added to the Details
+            feature class, for example:
+
+            -   A-DOOR
+
+            -   A-GENM
+
+            -   A-WALL-EXTR
+
+            -   A-WALL-INT
+
+            -   A-WALL-GLAS
+
+            -   A-COLS
+
+            -   A-STAIRS
+
+            -   A-EVTR
+
+-   **Facility Properties** sheet with the columns below. Add a row for
+    each building/facility. The columns that exist in this sheet, ***but
+    not mentioned below*** may be mapped using the TRIRIGA to Indoors
+    Field Mapping Template so do not need to be populated in this sheet.
+
+    -   FACILITY_ID
+
+        -   A unique identifier string for the facility, 50 characters
+            or less.
+
+        -   Set to the TRIRIGA Building Spec ID captured previously in
+            the TRIRIGA report.
+
+    -   FACILITY_NUMBER
+
+        -   Unique identifier integer for the facility.
+
+    -   NAME
+
+        -   Short name for the facility, 100 characters or less.
+
+    -   NAME_LONG
+
+        -   Short name for the facility, 255 characters or less.
+
+    -   DESCRIPTION
+
+        -   Description for the facility, 255 characters or less.
+
+    -   DATE_BUILT
+
+        -   Date the facility was built in Date format.
+
+    -   ELEVATION_RELATIVE
+
+        -   The Z value of the base of the facility in meters, relative
+            to a flat terrain surface. (typically 0)
+
+    -   ELEVATION_ABSOLUTE
+
+        -   The absolute Z value of the base of the facility in meters,
+            relative to sea level.
+
+    -   HEIGHT_RELATIVE
+
+        -   The maximum height of the facility in meters, relative to a
+            flat terrain surface.
+
+    -   HEIGHT_ABSOLUTE
+
+        -   The maximum height of the facility in meters, relative to
+            sea level. (e.g. a 100-meter tall facility with an absolute
+            elevation of 350 meters has an absolute height of 450
+            meters).
+
+    -   ROTATION
+
+        -   The geographic rotation (left/west = 0 advancing clockwise)
+            of the facility. Valid value range: 0-180. Used for network
+            creation.
+
+        -   If this isn't specified, it will be calculated.
+
+-   **Level Properties** tab with the columns below. Add a row for each
+    floor/level. The columns that exist in this sheet, ***but not
+    mentioned below*** may be mapped using the TRIRIGA to Indoors Field
+    Mapping Template so do not need to be populated in this sheet.
+
+    -   LEVEL_ID
+
+        -   A unique identifier string for the level, 50 characters or
+            less.
+
+        -   Set to the TRIRIGA Floor Spec ID captured previously in the
+            TRIRIGA report.
+
+    -   NAME
+
+        -   The common name of the level (e.g. Floor 1), 255 characters
+            or less.
+
+    -   NAME_SHORT
+
+        -   The short name of the level (e.g. 1), 4 characters or less.
+
+    -   DESCRIPTION
+
+        -   Description for the facility, 255 characters or less.
+
+    -   ACCESS_TYPE
+
+        -   The access type of the level (e.g. Visitor, Employee,
+            Public), 50 characters or less.
+
+    -   LEVEL_NUMBER
+
+        -   An integer representing the level number for the level (e.g.
+            1).
+
+    -   VERTICAL_ORDER
+
+        -   An ordinal integer representing the vertical order of each
+            level (e.g. 0).
+
+    -   ELEVATION_RELATIVE
+
+        -   The Z value of each level in meters, relative to a flat
+            terrain surface. (e.g. Floor 1 = 0, Floor 2 = 4.25, etc.).
+
+    -   ELEVATION_ABSOLUTE
+
+        -   The absolute Z value of each level in meters, relative to
+            sea level. (e.g. Floor 1 = 254, Floor 2 = 258.25, etc.).
+
+    -   HEIGHT_RELATIVE
+
+        -   The maximum height of the top of the level in meters,
+            relative to the bottom of the level. (e.g. Floor 1 = 4.25,
+            Floor 2 = 4.25, etc.).
+
+    -   HEIGHT_ABSOLUTE
+
+        -   The absolute maximum height of the level in meters, relative
+            to sea level. (e.g. Floor 1 = 258.25, Floor 2 = 262.5,
+            etc.).
+
+#### Prepare the Target Indoors Geodatabase
+
+The ***Indoors Geodatabase Template (extended)*** provided is based off
+the standard Indoors Model, but enriched with TRIRIGA related fields.
+You can modify it as needed to meet your organization's needs so long as
+the standard Indoors fields are retained. If you would like to use the
+standard Indoors Model, use the ***Indoors Geodatabase Template
+(default)*** provided. See
+[here](https://pro.arcgis.com/en/pro-app/latest/help/data/indoors/arcgis-indoors-information-model.htm)
+for more information on the standard Indoors fields.
+
+1)  Make a copy of the Indoors Geodatabase Template, naming it as you
+    like for use as your working file geodatabase.
+
+2)  Optionally customize the working file geodatabase, keeping these
+    notes in mind:
+
+    a.  Do not remove, rename, or change configuration of any of the
+        standard Indoors
+
+        i.  domains
+
+        ii. datasets
+
+        iii. feature classes
+
+        iv. tables
+
+        v.  fields
+
+    b.  You may add new domains, datasets, feature classes, tables, and
+        fields.
+
+    c.  For any fields that you remove or add, remember to adjust the
+        mapping in the **TRIRIGA To Indoors Field Mapping Template**
+        appropriately.
+
+3)  Place the working file geodatabase in your ArcGIS Pro project
+    directory (not covered here).
+
+### Run "Import TRIRIGA To Indoors" Spatial ETL Tool
+
+This tool will update the target ArcGIS Indoors geodatabase.
+
+-   Locate the "Import TRIRIGA To Indoors" tool in the newly imported
+    toolbox in the catalog and launch (double-click) it.
+
+-   Enter the required parameters
+
+    -   Input Floor Plans
+
+    -   Input Field Mapping Template File
+
+        -   Click the browse icon to choose the path where the file
+            generated by the "Create TRIRIGA To Indoors Field Mapping
+            Template" tool is located.
+
+    -   Input CAD Layer Mapping Template File
+
+        -   Click the browse icon to choose the path where the file is
+            located.
+
+    -   Host URL
+
+    -   User Name
+
+    -   Password
+
+    -   Target Indoors Geodatabase
+
+        -   Select the target file geodatabase to update (if you don't
+            select an enterprise geodatabase below)
+
+    -   Target Indoors SDE Connection File
+
+        -   Select the target Enterprise geodatabase to update (if you
+            don't select a file geodatabase above)
+
+    -   Rebuild Sites from Levels
+
+    -   Rebuild Facilities from Levels
+
+-   Run the tool. Please be patient as the time this takes varies
+    depending on the size of the TRIRIGA system configuration and your
+    network connection. Once complete, you should see a message stating
+    that the translation was successful along with statistics about
+    features written to the geodatabase.
+
+#### 
+
+## Caveats
+
+-   In Indoors, the People feature class's EMAIL field must be unique,
+    but this may not be a requirement of TRIRIGA.
+
+-   The ETL creates an inner and outer source type for each level
+    leaving multiple levels with the same level_id. The Indoors network
+    tools (e.g. Generate Indoor Pathways) require unique level_id\'s and
+    they do not honor definition queries as of ArcGIS Pro 2.7. Here is a
+    workaround to perform after the Indoors is populated and before you
+    use the Generate Indoor Pathways geoprocessing tool:
+
+    -   Optionally make a backup of Levels
+
+        -   Make a copy of the Levels feature class in the Indoors
+            feature dataset and rename the copy as "LevelsBackup".
+            Change its alias to "LevelsBackup" to avoid confusion if
+            ever added to the map.
+
+    -   Delete all Level features where SOURCE_TYPE = "Inner".
+
+    -   Run the Generate Indoor Pathways tool choosing "Levels" for the
+        "Input Level Features" parameter as usual.
+
+## FAQs
+
+-   Does the ETL user account have access to sensitive information? Yes.
+    It has full administrative rights so can read everything in the
+    system including account passwords, however account passwords are
+    prevented from being mapped and displayed in the ETL in any way.
+
+## Appendix
+
+### Automatically Mapped Fields
+
+Below are some automatically mapped fields. In addition to these, parent
+ID's will be automatically mapped as well.
+
+1)  TRIRIGA Spec ID mapped to the unique ID (e.g. SITE_ID) and in the
+    TRIRIGA_SPEC_ID field in the ***Indoors Geodatabase Template
+    (extended Indoors for TRIRIGA)*** for applicable FCs/Tables.
+
+2)  Calculated:
+
+    a.  FACILITIES:
+
+        i.  ROTATION (calculated)
+
+    b.  DETAILS:
+
+        i.  DETAIL_ID = LEVEL_ID + \".Details.\" + str(counter + 10000)
+
+    c.  PEOPLE:
+
+        i.  (various location fields)
+
+        ii. AREA_ID: Populated with the TRIRIGA Spec ID for their
+            primary/secondary location space group if assigned one.
+
+    d.  UNITS:
+
+        i.  AREA_ID: Populated with the TRIRIGA Spec ID for their space
+            group if assigned one. In this case, all other location
+            fields will be NULL.
+
+        ii. ASSIGNMENT_TYPE:
+
+            1.  "hotel" if a space is all of these
+
+                a.  assignable
+
+                b.  part of an area
+
+            2.  "none" if a space is all of these (Dave changed from
+                "office")
+
+                a.  assignable
+
+                b.  not part of an area
+
+                c.  not assigned to a person
+
+            3.  "office" is a space is all of these (future
+                implementation)
+
+                a.  assignable
+
+                b.  not part of an area
+
+                c.  assigned to a person
+
+            4.  "not assignable" if a space is
+
+                a.  not assignable
+
+        iii. ASSIGNABLE: Set to a space's TRIRIGA's
+             triCurrentSpaceClass.triAssignableBL (extended geodatabase
+             only)
+
+    e.  AREAS:
+
+        i.  AREA_ID: Populated with the TRIRIGA Spec ID for the space
+            group
+
+        ii. AREA_NAME: Populated with TRIRIGA's space group name
+            (RecordInformation.triNameTX)
+
+        iii. AREA_TYPE: "hotel"
