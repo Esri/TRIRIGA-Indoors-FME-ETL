@@ -1,4 +1,3 @@
-# TRIRIGA-Indoors-FME-ETL
 # **TRIRIGA to Indoors ETL -- User Guide**
 
 ## May 5, 2021
