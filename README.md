@@ -13,61 +13,38 @@ generated](media/image4.png){width="0.9545450568678915in"
 height="0.9545450568678915in"}\
 ArcGIS Indoors
 
-[Audience (Who are we?)](#audience)
+## Table of Contents
 
-[Introduction (What is this?)](#introduction)
-
-[How It Works](#how-it-works)
-
-[Requirements (What do we need?)](#requirements)
-
-[TRIRIGA to Indoors Spatial ETL Tools and Resources](#tririga-to-indoors-spatial-etl-tools-and-resources)
-
-[IBM TRIRIGA](#ibm-tririga)
-
-[CAD](#cad)
-
-[ArcGIS Pro w/Data Interoperability Extension](#arcgis-pro-wdata-interoperability-extension)
-
-[Workflow (How do we do it?) 5](#workflow)
-
-[TRIRIGA](#retrieve-tririga-spec-ids)
-
-[Import Spatial ETL Tools](#import-spatial-etl-tools)
-
-[Run "Create TRIRIGA To Indoors Field Mapping Template" Spatial ETL Tool](#run-create-tririga-to-indoors-field-mapping-template-spatial-etl-tool)
-
-[Prepare the Import TRIRIGA To Indoors Tool Inputs](#prepare-the-import-tririga-to-indoors-tool-inputs)
-
-[Inputs](#_Toc63157656)
-
-[AutoCAD files](#input-floor-plans-autocad-files)
-
-[Input Field Mapping Template File](#input-field-mapping-template-file)
-
-[Input CAD Layer Mapping Template File](#input-cad-layer-mapping-template-file)
-
-[Indoors Template File Geodatabase](#target-indoors-geodatabase)
-
-[Georeference CAD](#georeference-cad)
-
-[Analyze CAD](#analyze-cad)
-
-[Populate TRIRIGA to Indoors Field Mapping Template](#populate-tririga-to-indoors-field-mapping-template)
-
-[Populate CAD Layer Mapping Template](#populate-cad-layer-mapping-template)
-
-[Prepare the Indoors Template File Geodatabase](#prepare-the-target-indoors-geodatabase)
-
-[Run "Import TRIRIGA To Indoors" Spatial ETL Tool](#run-import-tririga-to-indoors-spatial-etl-tool)
-
-[Caveats](#caveats)
-
-[FAQs /](#faqs)
+- [Audience (Who are we?)](#audience)
+- [Introduction (What is this?)](#introduction)
+- [How It Works](#how-it-works)
+- [Requirements (What do we need?)](#requirements)
+- [TRIRIGA to Indoors Spatial ETL Tools and Resources](#tririga-to-indoors-spatial-etl-tools-and-resources)
+- [IBM TRIRIGA](#ibm-tririga)
+- [CAD](#cad)
+- [ArcGIS Pro w/Data Interoperability Extension](#arcgis-pro-wdata-interoperability-extension)
+- [Workflow (How do we do it?)](#workflow)
+- [TRIRIGA](#retrieve-tririga-spec-ids)
+- [Import Spatial ETL Tools](#import-spatial-etl-tools)
+- [Run "Create TRIRIGA To Indoors Field Mapping Template" Spatial ETL Tool](#run-create-tririga-to-indoors-field-mapping-template-spatial-etl-tool)
+- [Prepare the Import TRIRIGA To Indoors Tool Inputs](#prepare-the-import-tririga-to-indoors-tool-inputs)
+  - [Inputs](#_Toc63157656)
+    - [AutoCAD files](#input-floor-plans-autocad-files)
+    - [Input Field Mapping Template File](#input-field-mapping-template-file)
+    - [Input CAD Layer Mapping Template File](#input-cad-layer-mapping-template-file)
+    - [Indoors Template File Geodatabase](#target-indoors-geodatabase)
+  - [Georeference CAD](#georeference-cad)
+  - [Analyze CAD](#analyze-cad)
+ - [Populate TRIRIGA to Indoors Field Mapping Template](#populate-tririga-to-indoors-field-mapping-template)
+ - [Populate CAD Layer Mapping Template](#populate-cad-layer-mapping-template)
+ - [Prepare the Indoors Template File Geodatabase](#prepare-the-target-indoors-geodatabase)
+ - [Run "Import TRIRIGA To Indoors" Spatial ETL Tool](#run-import-tririga-to-indoors-spatial-etl-tool)
+ - [Caveats](#caveats)
+ - [FAQs](#faqs)
 
 ## 
 
-## Audience
+## Audience {: #audience }
 
 This guide is intended for people:
 
@@ -245,47 +222,37 @@ includes the following artifacts:
 
 ### Retrieve TRIRIGA Spec ID's
 
--   The spatial ETL tools require TRIRIGA Spec ID's for Buildings and
+The spatial ETL tools require TRIRIGA Spec ID's for Buildings and
     Floors so retrieve them.
 
-    -   In TRIRIGA, locate a report that can output a list of all the
+  1. In TRIRIGA, locate a report that can output a list of all the
         **buildings** and their Spec ID's (e.g. My Reports, System
         Reports, title=All Active Locations).
-
-        -   Verify it has the column \"System Record ID
+     1. Verify it has the column \"System Record ID
             (triRecordIdSY)\", otherwise add it.
-
-    -   In TRIRIGA, locate a report that can output a list of all the
+  2. In TRIRIGA, locate a report that can output a list of all the
         **floors** and their Spec ID's (e.g. My Reports, System Reports,
         title=Active Floors).
-
-        -   Verify it has the column \"System Record ID
+      1. Verify it has the column \"System Record ID
             (triRecordIdSY)\", otherwise add it.
-
-    -   Run the reports and download the results as Excel files.
-
-    -   In the reports, take note of the System Record ID's for each
+  3. Run the reports and download the results as Excel files.
+  4. In the reports, take note of the System Record ID's for each
         **building** and **floor**. These System Record ID's are the
         Spec ID's used to populate the CAD Layer Mapping Template.
 
 ### Import Spatial ETL Tools
 
--   Open ArcGIS Pro with user license of ArcGIS Pro Advanced and the
+  1. Open ArcGIS Pro with user license of ArcGIS Pro Advanced and the
     Data Interoperability Extension
-
--   Create a project, optionally creating a default map.
-
--   In Windows Explorer, add the TRIRIGA to Indoors Spatial ETL Tools
+  2. Create a project, optionally creating a default map.
+  3. In Windows Explorer, add the TRIRIGA to Indoors Spatial ETL Tools
     and Resources zip file to the project folder.
-
--   Add to the Pro project the toolbox containing the ETL tools
-
-    -   In the Catalog pane, in the Project tab, right-click on
+  4. Add to the Pro project the toolbox containing the ETL tools
+     1. In the Catalog pane, in the Project tab, right-click on
         Toolboxes and choose "Add Toolbox".
+     2. Locate the toolbox in the project folder, then click "OK".
 
-    -   Locate the toolbox in the project folder, then click "OK".
-
--   (Maya/Tom prefer alternative to above to manually create the toolbox
+* (Maya/Tom prefer alternative to above to manually create the toolbox
     and add the spatial ETL tools found on FME Hub)
 
 ### Run "Create TRIRIGA To Indoors Field Mapping Template" Spatial ETL Tool
@@ -293,24 +260,17 @@ includes the following artifacts:
 This tool will generate the "TRIRIGA to Indoors Field Mapping Template"
 Microsoft Excel Workbook.
 
--   Locate the "Create TRIRIGA To Indoors Field Mapping Template" tool
+  1. Locate the "Create TRIRIGA To Indoors Field Mapping Template" tool
     in the toolbox in the catalog and launch (double-click) it.
-
--   Enter the required parameters
-
-    -   Host URL
-
-    -   Output Field Mapping Template
-
-        -   Click the browse icon to choose the path where the generated
+  2. Enter the required parameters
+     a. Host URL
+     b. Output Field Mapping Template
+        1. Click the browse icon to choose the path where the generated
             file will be placed. Be sure to give it an extension of
             ".xlsx".
-
-    -   User Name
-
-    -   Password
-
--   Run the tool. Please be patient as the time this takes varies
+     c. User Name
+     d. Password
+   3. Run the tool. Please be patient as the time this takes varies
     depending on the size of the TRIRIGA system configuration and the
     network connection. Click the "View Details" link at the bottom of
     the tool to launch a dialog where you can see output messages as it
