@@ -143,34 +143,24 @@ The tool can be downloaded from the FME Hub
 The resources used with the tool are provided in a zip file that
 includes the following artifacts:
 
-1)  Indoors Geodatabase Template (extended Indoors for TRIRIGA)
-    (indoors-extended.gdb)
-2)  Indoors Geodatabase Template (default) (indoors-default.gdb)
-3)  TRIRIGA To Indoors Field Mapping Template (populated with extended
-    Indoors for TRIRIGA)
-4)  CAD Layer Mapping Template (default/blank)
-5)  Transformation definition file for CSMAP
-    (***WGS_1984\_(ITRF08)\_To_NAD_1983_2011.fme***). This is required
-    for users that have data in NAD83(2011).
+1.  Indoors Geodatabase Template (extended Indoors for TRIRIGA) (indoors-extended.gdb)
+2.  Indoors Geodatabase Template (default) (indoors-default.gdb)
+3.  TRIRIGA To Indoors Field Mapping Template (populated with extended Indoors for TRIRIGA)
+4.  CAD Layer Mapping Template (default/blank)
+5.  Transformation definition file for CSMAP (***WGS_1984\_(ITRF08)\_To_NAD_1983_2011.fme***). This is required for users that have data in NAD83(2011).
 
 ### IBM TRIRIGA
 
 -   TRIRIGA Application Platform v3.6.1 or later
--   The CAD drawing files for all floorplans must be attached and
-    published to TRIRIGA using the IBM TRIRIGA CAD Integrator/Publisher
-    software for AutoCAD. The CAD Integrator is its own license on top
-    of a standard module license.
-    -   All spaces intended to bring into Indoors included were attached
-        and published with the drawing
+-   The CAD drawing files for all floorplans must be attached and published to TRIRIGA using the IBM TRIRIGA CAD Integrator/Publisher software for AutoCAD. The CAD Integrator is its own license on top of a standard module license.
+    -   All spaces intended to bring into Indoors included were attached and published with the drawing
     -   TRIRIGA-related layers appear in CAD
         -   triSpaceLayer (Spaces/Units)
         -   triGrossAreaLayer (Floors/Levels)
         -   triMeasuredGrossAreaLayer (Floors/Levels)
         -   triLabelLayer (Spaces/Units labels)
-    -   All spaces must have unique labels in the triLabelLayer;
-        otherwise the result is a single multi-part record.
--   TRIRIGA application server user account created and granted with
-    admin access for use by the ETL.
+    -   All spaces must have unique labels in the triLabelLayer; otherwise the result is a single multi-part record.
+-   TRIRIGA application server user account created and granted with admin access for use by the ETL.
 -   TRIRIGA application server host URL.
 
 ### CAD
@@ -182,11 +172,9 @@ includes the following artifacts:
 -   ArcGIS Pro v2.7 or later with access to the TRIRIGA application server
 -   Data Interoperability Extension v2.7 or later
 -   User licenses:
-     -   ArcGIS Pro Advanced named user license (included with a license
-        for ArcGIS Indoors)
+     -   ArcGIS Pro Advanced named user license (included with a license for ArcGIS Indoors)
           -   This can be named user or single use
-     -   Data Interoperability Extension license (included with a license
-        for ArcGIS Indoors)
+     -   Data Interoperability Extension license (included with a license for ArcGIS Indoors)
 
 ## Workflow
 
@@ -195,20 +183,12 @@ includes the following artifacts:
 The spatial ETL tools require TRIRIGA Spec ID's for Buildings and
     Floors so retrieve them.
 
-  1. In TRIRIGA, locate a report that can output a list of all the
-        **buildings** and their Spec ID's (e.g. My Reports, System
-        Reports, title=All Active Locations).
-     1. Verify it has the column \"System Record ID
-            (triRecordIdSY)\", otherwise add it.
-  2. In TRIRIGA, locate a report that can output a list of all the
-        **floors** and their Spec ID's (e.g. My Reports, System Reports,
-        title=Active Floors).
-      1. Verify it has the column \"System Record ID
-            (triRecordIdSY)\", otherwise add it.
+  1. In TRIRIGA, locate a report that can output a list of all the **buildings** and their Spec ID's (e.g. My Reports, System Reports, title=All Active Locations).
+     1. Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
+  2. In TRIRIGA, locate a report that can output a list of all the **floors** and their Spec ID's (e.g. My Reports, System Reports, title=Active Floors).
+      1. Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
   3. Run the reports and download the results as Excel files.
-  4. In the reports, take note of the System Record ID's for each
-        **building** and **floor**. These System Record ID's are the
-        Spec ID's used to populate the CAD Layer Mapping Template.
+  4. In the reports, take note of the System Record ID's for each **building** and **floor**. These System Record ID's are the Spec ID's used to populate the CAD Layer Mapping Template.
 
 ### Import Spatial ETL Tools
 
@@ -280,12 +260,12 @@ The **Input CAD Layer Mapping Template File** is used to:
 
 1)  For Levels, it supplies these columns
 
-    a.  name
-    b.  name_short
-    c.  description
-    d.  access_type
-    e.  level_number
-    f.  vertical order
+    a.  name  
+    b.  name_short  
+    c.  description  
+    d.  access_type  
+    e.  level_number  
+    f.  vertical order  
     g.  elevation/height
 
 2)  For Details, it uses the "DETAILS" column to filter the CAD layers used
@@ -294,8 +274,7 @@ The **Input CAD Layer Mapping Template File** is used to:
 
 3)  For Facilities, it supplies the
 
-    a.  elevation information that is neither in the CAD file nor
-        TRIRIGA
+    a.  elevation information that is neither in the CAD file nor TRIRIGA  
     b.  rotation
 
 Correlate buildings, floors, spaces, and linework in CAD and TRIRIGA to
@@ -315,7 +294,7 @@ ArcGIS Pro to connect to an Enterprise Geodatabase. You'll use this if
 your target geodatabase is an Enterprise geodatabase as opposed to a
 file geodatabase.
 
-### Georeference CAD
+#### Georeference CAD
 
 You'll need to georeference the CAD drawings, populate the 2 mapping
 templates, then prepare the Target Indoors Geodatabase before use. Georeferencing is the process of spatially adjusting a CAD drawing
