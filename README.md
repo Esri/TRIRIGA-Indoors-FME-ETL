@@ -2,16 +2,9 @@
 
 ## May 5, 2021
 
-(insert Esri image, copyright, credit to Safe software, etc.)\
-\
-![](media/image1.png){width="2.5in" height="0.9772725284339457in"}
-
-![](media/image3.png){width="3.1465037182852145in" height="1.575in"}\
-\
-![Logo, icon Description automatically
-generated](media/image4.png){width="0.9545450568678915in"
-height="0.9545450568678915in"}\
-ArcGIS Indoors
+![Safe Software](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image1.png)
+![Esri Logo](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image3.png)
+![ArcGIS Indoors Logo](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image4.png)
 
 ## Table of Contents
 
@@ -298,7 +291,7 @@ typically do not come georeferenced (i.e. no real-world X/Y/Z location).
 
 3. Under Coordinate Systems change the CurrentXY Coordinate System to an appropriate coordinate system for your site.
 
-![](media/image5.png){width="5.5in" height="3.0520833333333335in"}
+> ![Change Coordinate System](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image5.png)
 
 4.  Add the first floor CAD drawing from your desired facility to the map. In the \"Map\" tab, \"Layer\" group, click the \"Add Data\" button, then choose the CAD file.
 
@@ -306,11 +299,9 @@ typically do not come georeferenced (i.e. no real-world X/Y/Z location).
 
 6.  Using the Define Projection tool in the CAD Layer tab, assign the CAD layer the same coordinate system you just specified for your map. Run the tool. The output is a .prj file in the same file location as your CAD drawing.
 
-> ![](media/image6.png){width="0.6666666666666666in"
-> height="0.7916666666666666in"}
->
-> ![](media/image7.png){width="2.8645833333333335in"
-> height="1.8196412948381453in"}
+> ![Define Projection tool symbol](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image6.png)
+> 
+> ![Define Projection tool prompt](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image7.png)
 
 7.   To assign the same coordinate system to all your CAD drawings you
     can create a universal projection file. To do this, save and close
@@ -336,8 +327,8 @@ typically do not come georeferenced (i.e. no real-world X/Y/Z location).
 11.   To give the rest of the floorplans in your facility the same scale
     and position, create a copy of the .wld from the last step for every
     level in your facility and rename them so that each .dwg has an
-    accompanying .wld. ![](media/image8.png){width="5.0in"
-    height="1.1666666666666667in"}
+    accompanying .wld. 
+> ![](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image8.png)
     
 12.   Add the rest of your floorplans in ArcGIS Pro and verify that all
     floors within a facility line up properly by inspecting CAD features
@@ -357,18 +348,14 @@ Details feature class. The Details feature class contains line work
 which provides context to your Indoor map and typically includes walls,
 windows, doors, elevator shafts, stair treads, furniture, etc.
 
-![A picture containing box and whisker chart Description automatically
-generated](media/image9.png){width="3.2517574365704287in"
-height="3.1041666666666665in"}
+![Example of Details layer in CAD](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image9.png)
 
 You'll need to know the layer names that these line features are on. If
 you are unfamiliar with the drawing, you'll need to open it in ArcGIS
 Pro or your preferred drawing editor to determine them. In ArcGIS Pro,
 when first adding CAD to a map, layer types are grouped, for example:
 
-![Text Description automatically
-generated](media/image10.png){width="2.2913801399825022in"
-height="1.5102274715660542in"}
+![Grouped Layers](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image10.png)
 
 The layers you'll want are in the polyline type group, for example:
 
@@ -772,27 +759,3 @@ Below are some automatically mapped fields. In addition to these, parent ID's wi
         i.  AREA_ID: Populated with the TRIRIGA Spec ID for the spacegroup
         ii. AREA_NAME: Populated with TRIRIGA's space group name (RecordInformation.triNameTX)
         iii. AREA_TYPE: "hotel"
-
-------------DELETE LATER 
-1. adsdaf  
-2. testing  
-   a. afsfsfsf  
-4. sdfefefsfes  
-
-* Level 1
-  * Level 2
-    * Level 3
-      * Level 4
-        * Level 5
-          * Level 6
-            * Level 7
-              * Level 8
-
-# this works for nesting (4 indents) 
-1. Level 1 
-    1. 3333
-        1. asdasda
-   3. 3333
-   4. fffff
-3. Level 2
-4. Level 3
