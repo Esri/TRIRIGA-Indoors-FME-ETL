@@ -185,7 +185,7 @@ The spatial ETL tools require TRIRIGA Spec ID's for Buildings and
   1. In TRIRIGA, locate a report that can output a list of all the **buildings** and their Spec ID's (e.g. My Reports, System Reports, title=All Active Locations).
      1. Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
   2. In TRIRIGA, locate a report that can output a list of all the **floors** and their Spec ID's (e.g. My Reports, System Reports, title=Active Floors).
-      1. Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
+     1. Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
   3. Run the reports and download the results as Excel files.
   4. In the reports, take note of the System Record ID's for each **building** and **floor**. These System Record ID's are the Spec ID's used to populate the CAD Layer Mapping Template.
 
@@ -208,13 +208,13 @@ Microsoft Excel Workbook.
 
   1. Locate the "Create TRIRIGA To Indoors Field Mapping Template" tool in the toolbox in the catalog and launch (double-click) it.
   2. Enter the required parameters  
-     a. Host URL  
-     b. Output Field Mapping Template  
-        -Click the browse icon to choose the path where the generated
+     1. Host URL  
+     2. Output Field Mapping Template  
+        1. Click the browse icon to choose the path where the generated
             file will be placed. Be sure to give it an extension of
             ".xlsx".  
-     c. User Name  
-     d. Password
+     3. User Name  
+     4. Password
    3. Run the tool. Please be patient as the time this takes varies
     depending on the size of the TRIRIGA system configuration and the
     network connection. Click the "View Details" link at the bottom of
@@ -230,8 +230,7 @@ This tool takes these file inputs which need to be prepared:
 -   Input Floor Plans (AutoCAD files)
 -   Input Field Mapping Template File
 -   Input CAD Layer Mapping Template File
--   Target Indoors Geodatabase ***or*** Target Indoors SDE Connection
-    File
+-   Target Indoors Geodatabase ***or*** Target Indoors SDE Connection File
     -   Only pick one
 
 #### Input Floor Plans (AutoCAD files)
@@ -253,28 +252,25 @@ Template File.
 
 The **Input CAD Layer Mapping Template File** is used to:
 
-1)  For Levels, it supplies these columns
+1. For Levels, it supplies these columns
 
-    a.  name  
-    b.  name_short  
-    c.  description  
-    d.  access_type  
-    e.  level_number  
-    f.  vertical order  
-    g.  elevation/height
+    1. name
+    2. name_short
+    3. description
+    4. access_type
+    5. level_number
+    6. vertical order
+    7. elevation/height
 
-2)  For Details, it uses the "DETAILS" column to filter the CAD layers used
-
+2. For Details, it uses the "DETAILS" column to filter the CAD layers used
 > (start reviewing here again)
 
-3)  For Facilities, it supplies the
+3. For Facilities, it supplies the
 
-    a.  elevation information that is neither in the CAD file nor TRIRIGA  
-    b.  rotation
+    1. elevation information that is neither in the CAD file nor TRIRIGA
+    2. rotation
 
-Correlate buildings, floors, spaces, and linework in CAD and TRIRIGA to
-the Facilities, Levels, Units, Areas, and Details feature classes and
-tables in the Indoors Model.
+Correlate buildings, floors, spaces, and linework in CAD and TRIRIGA to the Facilities, Levels, Units, Areas, and Details feature classes and tables in the Indoors Model.
 
 #### Target Indoors Geodatabase
 
@@ -297,12 +293,14 @@ without changing the original source data. CAD floorplan drawings
 typically do not come georeferenced (i.e. no real-world X/Y/Z location).
 
 1. Add a new map to your ArcGIS Pro project.
+
 2. Change the coordinate system of the map. Right-click on Map in the Contents pane and select Properties.
+
 3. Under Coordinate Systems change the CurrentXY Coordinate System to an appropriate coordinate system for your site.
 
 ![](media/image5.png){width="5.5in" height="3.0520833333333335in"}
 
-4.  Add the first floor CAD drawing from your desired facility to the map. In the \"Map\" tab, \"Layer\" group, click the \"Add Data\" button, then choose the CAD file
+4.  Add the first floor CAD drawing from your desired facility to the map. In the \"Map\" tab, \"Layer\" group, click the \"Add Data\" button, then choose the CAD file.
 
 5.  Select one of the CAD layers in the Contents pane. The CAD Layer Manage tab appears. Click it.
 
@@ -327,20 +325,20 @@ typically do not come georeferenced (i.e. no real-world X/Y/Z location).
     Georeference. This contains tools that allow you to move, scale,
     rotate, and add control points. Use these tools as needed to scale
     and position your drawing.
-
+    
 10.   Once positioned, hit Save. This action creates a .wld file with the
     same name and location as your .dwg file. This file stores
     coordinates, allowing ArcGIS Pro to generate the floorplan
     automatically with the correct scale and position when re-opening it
     in a map. Georeferencing in ArcGIS Pro does not edit the CAD
     drawing.
-
+    
 11.   To give the rest of the floorplans in your facility the same scale
     and position, create a copy of the .wld from the last step for every
     level in your facility and rename them so that each .dwg has an
     accompanying .wld. ![](media/image8.png){width="5.0in"
     height="1.1666666666666667in"}
-
+    
 12.   Add the rest of your floorplans in ArcGIS Pro and verify that all
     floors within a facility line up properly by inspecting CAD features
     that remain consistent throughout all floors, such as stairways and
@@ -524,7 +522,7 @@ corresponding Indoors feature classes:
 Each worksheet contains columns specific to their mapping (translation)
 requirements as shown below.
 
--   **CAD Layer to FC Mapping** sheet with the columns below. *[The
+- **CAD Layer to FC Mapping** sheet with the columns below. *[The
     columns **not mentioned below** are mapped automatically to the
     "tri" CAD layers so do not need to be populated in this
     sheet]{.ul}*. (Dave, confirm this, it doesn't appear this way for
@@ -534,11 +532,9 @@ requirements as shown below.
     record's Spec_ID. UNIT_NAME and USE_TYPE get mapped in the
     fieldmapping.xlsx.
 
-    -   DETAILS
-
-        -   Add a row for each CAD layer to be added to the Details
+    - DETAILS
+        - Add a row for each CAD layer to be added to the Details
             feature class, for example:
-
             -   A-DOOR
             -   A-GENM
             -   A-WALL-EXTR
@@ -548,66 +544,52 @@ requirements as shown below.
             -   A-STAIRS
             -   A-EVTR
 
--   **Facility Properties** sheet with the columns below. Add a row for
+- **Facility Properties** sheet with the columns below. Add a row for
     each building/facility. The columns that exist in this sheet, ***but
     not mentioned below*** may be mapped using the TRIRIGA to Indoors
     Field Mapping Template so do not need to be populated in this sheet.
 
-    -   FACILITY_ID
-
-        -   A unique identifier string for the facility, 50 characters
-            or less.
-        -   Set to the TRIRIGA Building Spec ID captured previously in
-            the TRIRIGA report.
-
+    - FACILITY_ID
+        - A unique identifier string for the facility, 50 characters or less.
+        - Set to the TRIRIGA Building Spec ID captured previously in the TRIRIGA report.
+            
     -   FACILITY_NUMBER
-
         -   Unique identifier integer for the facility.
 
     -   NAME
-
         -   Short name for the facility, 100 characters or less.
 
     -   NAME_LONG
-
         -   Short name for the facility, 255 characters or less.
 
     -   DESCRIPTION
-
         -   Description for the facility, 255 characters or less.
 
     -   DATE_BUILT
-
         -   Date the facility was built in Date format.
 
     -   ELEVATION_RELATIVE
-
         -   The Z value of the base of the facility in meters, relative
             to a flat terrain surface. (typically 0)
 
     -   ELEVATION_ABSOLUTE
-
         -   The absolute Z value of the base of the facility in meters,
             relative to sea level.
 
     -   HEIGHT_RELATIVE
-
         -   The maximum height of the facility in meters, relative to a
             flat terrain surface.
 
     -   HEIGHT_ABSOLUTE
-
         -   The maximum height of the facility in meters, relative to
             sea level. (e.g. a 100-meter tall facility with an absolute
             elevation of 350 meters has an absolute height of 450
             meters).
 
     -   ROTATION
-
         -   The geographic rotation (left/west = 0 advancing clockwise)
             of the facility. Valid value range: 0-180. Used for network
             creation.
-
         -   If this isn't specified, it will be calculated.
 
 -   **Level Properties** tab with the columns below. Add a row for each
@@ -615,59 +597,49 @@ requirements as shown below.
     mentioned below*** may be mapped using the TRIRIGA to Indoors Field
     Mapping Template so do not need to be populated in this sheet.
 
-    -   LEVEL_ID
+    - LEVEL_ID
 
-        -   A unique identifier string for the level, 50 characters or
-            less.
+        - A unique identifier string for the level, 50 characters or
+            less.  
         -   Set to the TRIRIGA Floor Spec ID captured previously in the
-            TRIRIGA report.
+            TRIRIGA report.  
 
     -   NAME
-
         -   The common name of the level (e.g. Floor 1), 255 characters
             or less.
 
     -   NAME_SHORT
-
         -   The short name of the level (e.g. 1), 4 characters or less.
 
     -   DESCRIPTION
-
         -   Description for the facility, 255 characters or less.
 
     -   ACCESS_TYPE
-
         -   The access type of the level (e.g. Visitor, Employee,
             Public), 50 characters or less.
 
     -   LEVEL_NUMBER
-
         -   An integer representing the level number for the level (e.g.
             1).
 
     -   VERTICAL_ORDER
-
         -   An ordinal integer representing the vertical order of each
             level (e.g. 0).
 
     -   ELEVATION_RELATIVE
-
         -   The Z value of each level in meters, relative to a flat
             terrain surface. (e.g. Floor 1 = 0, Floor 2 = 4.25, etc.).
 
     -   ELEVATION_ABSOLUTE
-
         -   The absolute Z value of each level in meters, relative to
             sea level. (e.g. Floor 1 = 254, Floor 2 = 258.25, etc.).
 
     -   HEIGHT_RELATIVE
-
         -   The maximum height of the top of the level in meters,
             relative to the bottom of the level. (e.g. Floor 1 = 4.25,
             Floor 2 = 4.25, etc.).
 
     -   HEIGHT_ABSOLUTE
-
         -   The absolute maximum height of the level in meters, relative
             to sea level. (e.g. Floor 1 = 258.25, Floor 2 = 262.5,
             etc.).
@@ -712,61 +684,35 @@ for more information on the standard Indoors fields.
 
 This tool will update the target ArcGIS Indoors geodatabase.
 
-1.   Locate the "Import TRIRIGA To Indoors" tool in the newly imported toolbox in the catalog and launch (double-click) it.
-2.   Enter the required parameters  
-    a.  Input Floor Plans  
-    b.  Input Field Mapping Template File  
+1. Locate the "Import TRIRIGA To Indoors" tool in the newly imported toolbox in the catalog and launch (double-click) it.
+2. Enter the required parameters
+    1. Input Floor Plans
+    2. Input Field Mapping Template File
+        - Click the browse icon to choose the path where the file generated by the "Create TRIRIGA To Indoors Field Mapping Template" tool is located.
+    3. Input CAD Layer Mapping Template File
+        - Click the browse icon to choose the path where the file is located.
+    4. Host URL
+    5. User Name
+    6. Password
+    7. Target Indoors Geodatabase
+        - Select the target file geodatabase to update (if you don't select an enterprise geodatabase below)
+    8. Target Indoors SDE Connection File
+        - Select the target Enterprise geodatabase to update (if you don't select a file geodatabase above)
+    9. Rebuild Sites from Levels
+    10. Rebuild Facilities from Levels
 
-        -   Click the browse icon to choose the path where the file generated by the "Create TRIRIGA To Indoors Field Mapping Template" tool is located.
-
-    -   Input CAD Layer Mapping Template File
-
-        -   Click the browse icon to choose the path where the file is located.
-
-    -   Host URL
-
-    -   User Name
-
-    -   Password
-
-    -   Target Indoors Geodatabase
-
-        -   Select the target file geodatabase to update (if you don't select an enterprise geodatabase below)
-
-    -   Target Indoors SDE Connection File
-
-        -   Select the target Enterprise geodatabase to update (if you don't select a file geodatabase above)
-
-    -   Rebuild Sites from Levels
-
-    -   Rebuild Facilities from Levels
-
--   Run the tool. Please be patient as the time this takes varies depending on the size of the TRIRIGA system configuration and your network connection. Once complete, you should see a message stating that the translation was successful along with statistics about features written to the geodatabase.
+3.   Run the tool. Please be patient as the time this takes varies depending on the size of the TRIRIGA system configuration and your network connection. Once complete, you should see a message stating that the translation was successful along with statistics about features written to the geodatabase.
 
 #### 
 
 ## Caveats
 
--   In Indoors, the People feature class's EMAIL field must be unique,
-    but this may not be a requirement of TRIRIGA.
-
--   The ETL creates an inner and outer source type for each level
-    leaving multiple levels with the same level_id. The Indoors network
-    tools (e.g. Generate Indoor Pathways) require unique level_id\'s and
-    they do not honor definition queries as of ArcGIS Pro 2.7. Here is a
-    workaround to perform after the Indoors is populated and before you
-    use the Generate Indoor Pathways geoprocessing tool:
-
-    -   Optionally make a backup of Levels
-
-        -   Make a copy of the Levels feature class in the Indoors
-            feature dataset and rename the copy as "LevelsBackup".
-            Change its alias to "LevelsBackup" to avoid confusion if
-            ever added to the map.
-
-    -   Delete all Level features where SOURCE_TYPE = "Inner".
-
-    -   Run the Generate Indoor Pathways tool choosing "Levels" for the
+-   In Indoors, the People feature class's EMAIL field must be unique, but this may not be a requirement of TRIRIGA.
+-   The ETL creates an inner and outer source type for each level leaving multiple levels with the same level_id. The Indoors network tools (e.g. Generate Indoor Pathways) require unique level_id\'s and they do not honor definition queries as of ArcGIS Pro 2.7. Here is a workaround to perform after the Indoors is populated and before you use the Generate Indoor Pathways geoprocessing tool:
+    1. Optionally make a backup of Levels  
+        1. Make a copy of the Levels feature class in the Indoors feature dataset and rename the copy as "LevelsBackup". Change its alias to "LevelsBackup" to avoid confusion if ever added to the map.  
+    2.   Delete all Level features where SOURCE_TYPE = "Inner".
+    3.   Run the Generate Indoor Pathways tool choosing "Levels" for the
         "Input Level Features" parameter as usual.
 
 ## FAQs
@@ -826,3 +772,27 @@ Below are some automatically mapped fields. In addition to these, parent ID's wi
         i.  AREA_ID: Populated with the TRIRIGA Spec ID for the spacegroup
         ii. AREA_NAME: Populated with TRIRIGA's space group name (RecordInformation.triNameTX)
         iii. AREA_TYPE: "hotel"
+
+------------DELETE LATER 
+1. adsdaf  
+2. testing  
+   a. afsfsfsf  
+4. sdfefefsfes  
+
+* Level 1
+  * Level 2
+    * Level 3
+      * Level 4
+        * Level 5
+          * Level 6
+            * Level 7
+              * Level 8
+
+# this works for nesting (4 indents) 
+1. Level 1 
+    1. 3333
+        1. asdasda
+   3. 3333
+   4. fffff
+3. Level 2
+4. Level 3
