@@ -137,8 +137,7 @@ their sub-feature classes.
 
 ### TRIRIGA to Indoors Spatial ETL Tools and Resources
 
-The tool can be downloaded from the FME Hub
-[here](https://hub.safe.com/publishers/safe-lab/templates/tririgatoarcgisindoors).
+The tool can be downloaded from the FME Hub [here](https://hub.safe.com/publishers/safe-lab/templates/tririgatoarcgisindoors).
 
 The resources used with the tool are provided in a zip file that
 includes the following artifacts:
@@ -192,14 +191,11 @@ The spatial ETL tools require TRIRIGA Spec ID's for Buildings and
 
 ### Import Spatial ETL Tools
 
-  1. Open ArcGIS Pro with user license of ArcGIS Pro Advanced and the
-    Data Interoperability Extension
+  1. Open ArcGIS Pro with user license of ArcGIS Pro Advanced and the Data Interoperability Extension
   2. Create a project, optionally creating a default map.
-  3. In Windows Explorer, add the TRIRIGA to Indoors Spatial ETL Tools
-    and Resources zip file to the project folder.
+  3. In Windows Explorer, add the TRIRIGA to Indoors Spatial ETL Tools and Resources zip file to the project folder.
   4. Add to the Pro project the toolbox containing the ETL tools
-     1. In the Catalog pane, in the Project tab, right-click on
-        Toolboxes and choose "Add Toolbox".
+     1. In the Catalog pane, in the Project tab, right-click on Toolboxes and choose "Add Toolbox".
      2. Locate the toolbox in the project folder, then click "OK".
 
 Note: _Maya/Tom prefer alternative to above to manually create the toolbox
@@ -210,15 +206,14 @@ Note: _Maya/Tom prefer alternative to above to manually create the toolbox
 This tool will generate the "TRIRIGA to Indoors Field Mapping Template"
 Microsoft Excel Workbook.
 
-  1. Locate the "Create TRIRIGA To Indoors Field Mapping Template" tool
-    in the toolbox in the catalog and launch (double-click) it.
-  2. Enter the required parameters
-     a. Host URL
-     b. Output Field Mapping Template
-        1. Click the browse icon to choose the path where the generated
+  1. Locate the "Create TRIRIGA To Indoors Field Mapping Template" tool in the toolbox in the catalog and launch (double-click) it.
+  2. Enter the required parameters  
+     a. Host URL  
+     b. Output Field Mapping Template  
+        -Click the browse icon to choose the path where the generated
             file will be placed. Be sure to give it an extension of
-            ".xlsx".
-     c. User Name
+            ".xlsx".  
+     c. User Name  
      d. Password
    3. Run the tool. Please be patient as the time this takes varies
     depending on the size of the TRIRIGA system configuration and the
