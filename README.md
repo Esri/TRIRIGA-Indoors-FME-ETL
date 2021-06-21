@@ -35,8 +35,6 @@
  - [Caveats](#caveats)
  - [FAQs](#faqs)
 
-## 
-
 ## Audience
 
 This guide is intended for people:
