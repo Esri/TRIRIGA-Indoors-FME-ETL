@@ -249,9 +249,7 @@ The **Input CAD Layer Mapping Template File** is used to:
      6. vertical order
      7. elevation/height
    2. For Details, it uses the "DETAILS" column to filter the CAD layers used  
-      1. name  
-      2. name_short  
-      3. description  
+      1. **START REVIEWING HERE AGAIN**  
    3. For Facilities, it supplies the  
       1. elevation information that is neither in the CAD file nor TRIRIGA  
       2. rotation  
