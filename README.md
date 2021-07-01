@@ -6,15 +6,15 @@
 
 ## Table of Contents
 
-- [Audience (Who are we?)](#audience)
-- [Introduction (What is this?)](#introduction)
+- [Audience](#audience)
+- [Introduction](#introduction)
   - [How It Works](#how-it-works)
-- [Requirements (What do we need?)](#requirements)
+- [Requirements](#requirements)
   - [TRIRIGA to Indoors Spatial ETL Tools and Resources](#tririga-to-indoors-spatial-etl-tools-and-resources)
   - [IBM TRIRIGA](#ibm-tririga)
   - [CAD](#cad)
   - [ArcGIS Pro w/Data Interoperability Extension](#arcgis-pro-wdata-interoperability-extension)
-- [Workflow (How do we do it?)](#workflow)
+- [Workflow](#workflow)
   - [Retrieve TRIRIGA Spec ID's](#retrieve-tririga-spec-ids)
   - [Import Spatial ETL Tools](#import-spatial-etl-tools)
   - [Run "Create TRIRIGA To Indoors Field Mapping Template" Spatial ETL Tool](#run-create-tririga-to-indoors-field-mapping-template-spatial-etl-tool)
@@ -275,7 +275,7 @@ You'll need to georeference the CAD drawings, populate the 2 mapping templates, 
 
   1. Add a new map to your ArcGIS Pro project.
   2. Change the coordinate system of the map. Right-click on Map in the Contents pane and select Properties.
-  3. Under Coordinate Systems, change the CurrentXY Coordinate System to an appropriate coordinate system for your site.
+  3. Under Coordinate Systems, change the CurrentXY Coordinate System to an appropriate coordinate system for your site.  
 ![Change Coordinate System](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image5.png)
   4. Add the first floor CAD drawing from your desired facility to the map. In the \"Map\" tab, \"Layer\" group, click \"Add Data\" button, then choose the CAD file.
   5. Select one of the CAD layers in the Contents pane. The CAD Layer Manage tab appears. Click it.
