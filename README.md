@@ -286,7 +286,7 @@ You'll need to georeference the CAD drawings, populate the 2 mapping templates, 
   8. Open your ArcGIS Pro project again.
   9. With a CAD layer selected, navigate to the CAD Layer tab and select Georeference. This contains tools that allow you to move, scale, rotate, and add control points. Use these tools as needed to scale and position your drawing.
   10. Once positioned, hit Save. This action creates a .wld file with the same name and location as your .dwg file. This file stores coordinates, allowing ArcGIS Pro to generate the floorplan automatically with the correct scale and position when re-opening it in a map. Georeferencing in ArcGIS Pro does not edit the CAD drawing.
-  11. To give the rest of the floorplans in your facility the same scale and position, create a copy of the .wld from the last step for every level in your facility and rename them so that each .dwg has an accompanying .wld.
+  11. To give the rest of the floorplans in your facility the same scale and position, create a copy of the .wld from the last step for every level in your facility and rename them so that each .dwg has an accompanying .wld.  
 ![](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image8.png)
   12. Add the rest of your floorplans in ArcGIS Pro and verify that all floors within a facility line up properly by inspecting CAD features that remain consistent throughout all floors, such as stairways and elevator shafts. The floorplans may not line up depending on how the CAD drawings were authored. If the files do not line up, use the georeferencing tools to move the files appropriately.
 
@@ -594,50 +594,34 @@ Yes. It has full administrative rights so can read everything in the system incl
 
 Below are some automatically mapped fields. In addition to these, parent ID's will be automatically mapped as well.
 
-1)  TRIRIGA Spec ID mapped to the unique ID (e.g. SITE_ID) and in the TRIRIGA_SPEC_ID field in the ***Indoors Geodatabase Template (extended Indoors for TRIRIGA)*** for applicable FCs/Tables.
-2)  Calculated:
-
-    a.  FACILITIES:
-
-        i.  ROTATION (calculated)
-
-    b.  DETAILS:
-
-        i.  DETAIL_ID = LEVEL_ID + \".Details.\" + str(counter + 10000)
-
-    c.  PEOPLE:
-
-        i.  (various location fields)
-        ii. AREA_ID: Populated with the TRIRIGA Spec ID for their primary/secondary location space group if assigned one.
-
-    d.  UNITS:
-
-        i.  AREA_ID: Populated with the TRIRIGA Spec ID for their space group if assigned one. In this case, all other location fields will be NULL.
-            
-        ii. ASSIGNMENT_TYPE:
-            1.  "hotel" if a space is all of these
-                a.  assignable
-                b.  part of an area
-
-            2.  "none" if a space is all of these (Dave changed from "office")
-                a.  assignable
-                b.  not part of an area
-                c.  not assigned to a person
-
-            3.  "office" is a space is all of these (future implementation)
-                a.  assignable
-                b.  not part of an area
-                c.  assigned to a person
-
-            4.  "not assignable" if a space is
-                a.  not assignable
-                
-        iii. ASSIGNABLE: Set to a space's TRIRIGA's triCurrentSpaceClass.triAssignableBL (extended geodatabase only)
-
-    e.  AREAS:
-
-        i.  AREA_ID: Populated with the TRIRIGA Spec ID for the spacegroup
-        ii. AREA_NAME: Populated with TRIRIGA's space group name (RecordInformation.triNameTX)
-        iii. AREA_TYPE: "hotel"
-        
+  1. TRIRIGA Spec ID mapped to the unique ID (e.g. SITE_ID) and in the TRIRIGA_SPEC_ID field in the ***Indoors Geodatabase Template (extended Indoors for TRIRIGA)*** for applicable FCs/Tables.
+  2. Calculated:
+      1. FACILITIES:
+         1. ROTATION (calculated)
+      2. DETAILS:
+         1. DETAIL_ID = LEVEL_ID + \".Details.\" + str(counter + 10000)
+      3. PEOPLE:
+         1. (various location fields)
+         2. AREA_ID: Populated with the TRIRIGA Spec ID for their primary/secondary location space group if assigned one.
+      4. UNITS:
+         1. AREA_ID: Populated with the TRIRIGA Spec ID for their space group if assigned one. In this case, all other location fields will be NULL.
+         2. ASSIGNMENT_TYPE:
+             1. "hotel" if a space is all of these
+                 1. assignable
+                 2. part of an area
+             2. "none" if a space is all of these (Dave changed from "office")
+                 1. assignable
+                 2. not part of an area
+                 3. not assigned to a person
+             3. "office" is a space is all of these (future implementation)
+                 1. assignable
+                 2. not part of an area
+                 3. assigned to a person
+             4. "not assignable" if a space is
+                 1. not assignable
+         3. ASSIGNABLE: Set to a space's TRIRIGA's triCurrentSpaceClass.triAssignableBL (extended geodatabase only)
+      5. AREAS:
+         1. AREA_ID: Populated with the TRIRIGA Spec ID for the spacegroup
+         2. AREA_NAME: Populated with TRIRIGA's space group name (RecordInformation.triNameTX)
+         3. AREA_TYPE: "hotel"
 
