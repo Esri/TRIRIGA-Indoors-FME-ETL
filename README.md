@@ -211,7 +211,7 @@ The spatial ETL tools require TRIRIGA Spec ID's for Buildings and Floors so retr
         4. Options:
            1. Import FMW: checked
            2. Store tool with relative path: n/a
-  8. When you are finished, you should have a toolbox that looks like this:
+  8. When you are finished, you should have a toolbox that looks like this:  
 ![Toolbox](https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/SS-Pro-Toolbox.png)
 
 ### Run "Create TRIRIGA To Indoors Field Mapping Template" Spatial ETL Tool
