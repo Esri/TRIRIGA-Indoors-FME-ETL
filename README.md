@@ -10,6 +10,7 @@
 - [Introduction](#introduction)
   - [How It Works](#how-it-works)
 - [Requirements](#requirements)
+  - [The Workbench Templates](#the-workbench-templates)
   - [TRIRIGA to Indoors Spatial ETL Tools and Resources](#tririga-to-indoors-spatial-etl-tools-and-resources)
   - [IBM TRIRIGA](#ibm-tririga)
   - [CAD](#cad)
@@ -23,8 +24,8 @@
     - [Input Field Mapping Template File](#input-field-mapping-template-file)
     - [Input CAD Layer Mapping Template File](#input-cad-layer-mapping-template-file)
     - [Indoors Template File Geodatabase](#target-indoors-geodatabase)
-    - [Georeference CAD](#georeference-cad)
-    - [Analyze CAD](#analyze-cad)
+   - [Georeference CAD](#georeference-cad)
+   - [Analyze CAD](#analyze-cad)
    - [Populate TRIRIGA to Indoors Field Mapping Template](#populate-tririga-to-indoors-field-mapping-template)
    - [Populate CAD Layer Mapping Template](#populate-cad-layer-mapping-template)
    - [Prepare the Target Indoors Geodatabase](#prepare-the-target-indoors-geodatabase)
@@ -32,6 +33,7 @@
  - [Caveats](#caveats)
  - [FAQs](#faqs)
  - [Appendix](#appendix)
+   - [Automatically Mapped Fields](#automatically-mapped-fields)
  - [License](#license)
 
 ## Audience
@@ -107,10 +109,10 @@ information will be loaded directly without needing to compare it. If
 the Indoors geodatabase is not empty, the spatial ETL tool will update
 the geodatabase with any changes in the TRIRIGA record information and
 CAD data since the last successful run. After the first successful run,
-a status file (lastrun.date file) is created with the run date. This is
+a status file (Update_Log.csv file) is created with the run date. This is
 stored and expected to be in the same folder as the CAD to Indoors
-mapping file. After each successful run, the status file is updated with
-the run date. It contains one column with the last run, date/time.
+mapping file. After each successful run, the status file is appended to with
+the last run date. It contains one column with the last successful run date/time in ISO format.
 
 In addition to the field map which a user configures, there are internal
 mappings that the spatial ETL tool uses in order to automatically map
@@ -125,18 +127,26 @@ their sub-feature classes.
 
 ## Requirements
 
+### The Workbench Templates
+
+There are a couple FME workbench templates you'll need to download from the [FME Hub](https://hub.safe.com/) shown below. We'll be converting these workbench templates into workbenches later on.
+
+1. Create TRIRIGA To Indoors Field Mapping Template
+    - Called "???" in FME Hub
+2. Import TRIRIGA To Indoors
+    - Called "TRIRIGAtoArcGISIndoors" in FME Hub
+
 ### TRIRIGA to Indoors Spatial ETL Tools and Resources
 
-The tool can be downloaded from the FME Hub [here](https://hub.safe.com/publishers/safe-lab/templates/tririgatoarcgisindoors).
-
-The resources used with the tool are provided in a zip file that
-includes the following artifacts:
+This is a zip file including:
 
 1.  Indoors Geodatabase Template (extended Indoors for TRIRIGA) (indoors-extended.gdb)
 2.  Indoors Geodatabase Template (default) (indoors-default.gdb)
-3.  TRIRIGA To Indoors Field Mapping Template (populated with extended Indoors for TRIRIGA)
-4.  CAD Layer Mapping Template (default/blank)
-5.  Transformation definition file for CSMAP (***WGS_1984\_(ITRF08)\_To_NAD_1983_2011.fme***). This is required for users that have data in NAD83(2011).
+3.  TRIRIGA To Indoors Field Mapping Template, populated with extended Indoors fields for TRIRIGA (FieldMapping-extended.xlsx)
+4.  TRIRIGA To Indoors Field Mapping Template, populated with default Indoors fields (FieldMapping-default.xlsx)
+5.  CAD Layer Mapping Template (default/blank)
+6.  Transformation definition file for CSMAP (***WGS_1984\_(ITRF08)\_To_NAD_1983_2011.fme***). This is required for users that have data in NAD83(2011).
+    - Copy this to your Documents\FME\CoordinateSystems folder and restart ArcGIS (and Interop, if open).
 
 ### IBM TRIRIGA
 
@@ -148,7 +158,7 @@ includes the following artifacts:
         -   triGrossAreaLayer (Floors/Levels)
         -   triMeasuredGrossAreaLayer (Floors/Levels)
         -   triLabelLayer (Spaces/Units labels)
-    -   All spaces must have unique labels in the triLabelLayer; otherwise the result is a single multi-part record.
+    -   All spaces should have unique labels in the triLabelLayer. Otherwise, a single multi-part record will be created to comprise those with the same label.
 -   TRIRIGA application server user account created and granted with admin access for use by the ETL.
 -   TRIRIGA application server host URL.
 
@@ -183,9 +193,25 @@ The spatial ETL tools require TRIRIGA Spec ID's for Buildings and Floors so retr
   1. Open ArcGIS Pro with user license of ArcGIS Pro Advanced and the Data Interoperability Extension
   2. Create a project, optionally creating a default map.
   3. In Windows Explorer, add the TRIRIGA to Indoors Spatial ETL Tools and Resources zip file to the project folder.
-  4. Add to the Pro project the toolbox containing the ETL tools
-     1. In the Catalog pane, in the Project tab, right-click on Toolboxes and choose "Add Toolbox".
-     2. Locate the toolbox in the project folder, then click "OK".
+  4. Download the ETL tool workbench templates
+     1. Create TRIRIGA To Indoors Field Mapping Template
+        1. Go to FME Hub and download "???"
+     2. Import TRIRIGA To Indoors
+        1. Go to FME Hub and download "[TRIRIGAtoArcGISIndoors](https://hub.safe.com/publishers/safe-lab/templates/tririgatoarcgisindoors)"
+  5. Convert each ETL tool workbench template (.fmwt) to a workbench (.fmw). Do this for each file.
+     1. Open ArcGIS Pro, go to the Analysis menu, Workflows section, Data Interop submenu, Workbench item
+     2. After the Data Interoperability Extension loads, open the workbench template (.fmwt file) and immediately save as a workbench (.fmw) file with the same name. 
+  6. In the Pro project, create a new toolbox to contain the ETL tools.
+     1. Confirm these steps: In the Catalog pane, in the Project tab, right-click on Toolboxes and choose "New Toolbox". Name is something like "TRIRIGA to Indoors".
+  7. In the Pro project, create a spatial ETL tool for each workbench. For each workbench:
+     1. Right-click on the new toolbox you created in the previous step, then choose New, Spatial ETL Tool. Fill in the fields below.
+        1. Name: (name each workbench as we have, but without spaces, i.e., "CreateTRIRIGAToIndoorsFieldMappingTemplate" or "ImportTRIRIGAToIndoors")
+        2. Label: (name each workbench as we have, i.e., "Create TRIRIGA To Indoors Field Mapping Template" or "Import TRIRIGA To Indoors")
+        3. Workspace: (pick the .fmw file)
+        4. Options:
+           1. Import FMW: checked
+           2. Store tool with relative path: n/a
+  8. When you are finished, you should have a toolbox that looks like this:
 
 Note: _Maya/Tom prefer alternative to above to manually create the toolbox
     and add the spatial ETL tools found on FME Hub._
