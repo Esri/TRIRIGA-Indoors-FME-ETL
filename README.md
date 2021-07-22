@@ -513,7 +513,7 @@ requirements as shown below.
     - HEIGHT_RELATIVE
         - The maximum height of the facility in meters, relative to a flat terrain surface.
     - HEIGHT_ABSOLUTE
-        - The maximum height of the facility in meters, relative to sea level. (e.g., a 100-meter tall facility with an absolute elevation of 350 meters has an absolute height of 450 meters). 
+        - The maximum height of the facility in meters, relative to sea level. (e.g. a 100-meter tall facility with an absolute elevation of 350 meters has an absolute height of 450 meters). 
     - ROTATION
         - The geographic rotation (left/west = 0 advancing clockwise) of the facility. Valid value range: 0-180. Used for network creation.
         - If this isn't specified, it will be calculated.
