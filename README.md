@@ -142,7 +142,7 @@ This is a zip file including:
 4.  TRIRIGA To Indoors Field Mapping Template, populated with default Indoors fields (FieldMapping-default.xlsx)
 5.  CAD Layer Mapping Template (default/blank)
 6.  Transformation definition file for CSMAP (***WGS_1984\_(ITRF08)\_To_NAD_1983_2011.fme***). This is required for users that have data in NAD83(2011).
-    - Copy this to your Documents\FME\CoordinateSystems folder and restart ArcGIS (and Interop, if open).
+    1. Copy this to your Documents\FME\CoordinateSystems folder and restart ArcGIS (and Interop, if open).
 
 ### IBM TRIRIGA
 
