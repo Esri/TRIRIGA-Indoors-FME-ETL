@@ -448,18 +448,14 @@ map them there (they'll be ignored) as they are automatically mapped to the asso
 | Units      | RENTABLE          | Space.triCurrentSpaceClass.triRentableBL              |
 | Units      | USABLE            | Space.triCurrentSpaceClass.triUsableBL                |
 | Units      | VACANT_COMMON     | Space.triCurrentSpaceClass.triVacantCommonBL          |
-| People     | JOB_TITLE         | Classification.Entitlement Role For.Name              |
-| People     | ORGANIZATION      | Organization.Primary Organization.Name                |
-| People     | ORG_LEVEL_1       | Organization.Primary Organization.Name                |
 | People     | COST_CENTER       | People.Detail.triCostCenterTX                         |
 | People     | EMAIL             | People.Detail.triEmailTX                              |
 | People     | FIRSTNAME         | People.Detail.triFirstNameTX                          |
 | People     | LASTNAME          | People.Detail.triLastNameTX                           |
 | People     | KNOWNAS           | People.Detail.triNameTX                               |
-| People     | CONTACT_PHONE     | People.Detail.triWorkPhoneTX                          |
-| People     | COMPANY_NAME      | People.triPrimaryOrganization.triOrganizationName     |
-| People     | MANAGER_TO        | triPeople.Manages.Name                                |
 | People     | REPORTS_TO        | triPeople.Reports To.Name                             |
+| People     | CONTACT_PHONE     | People.Detail.triWorkPhoneTX                          |
+| People     | ORG_LEVEL_1       | Organization.Primary Organization.Name                |
   ---------- ------------------ ------------------------------------------
 
 #### Populate CAD Layer Mapping Template
