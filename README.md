@@ -550,7 +550,7 @@ The ***Indoors Geodatabase Template (extended)*** provided is based off the stan
 
   1. Make a copy of the Indoors Geodatabase Template, naming it as you like for use as your working file geodatabase.
   2. Optionally customize the working file geodatabase, keeping these notes in mind:
-      1. Do not remove, rename, or change configuration of any of these standard Indoors
+      1. Do not remove, rename, or change configuration of any of the standard Indoors
            1. domains
            2. datasets
            3. feature classes
