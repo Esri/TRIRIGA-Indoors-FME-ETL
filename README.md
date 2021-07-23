@@ -30,7 +30,9 @@
  - [FAQs](#faqs)
  - [Appendix](#appendix)
    - [Automatically Mapped Fields](#automatically-mapped-fields)
- - [License](#license)
+ - [Issues](#issues)
+ - [Contributing](#contributing)
+ - [Licensing](#licensing)
 
 ## Audience
 
