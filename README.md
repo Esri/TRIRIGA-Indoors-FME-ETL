@@ -2,7 +2,7 @@
 
 ## July 29, 2021
 
-<img src="https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image1.png" alt="Safe Software Logo" width="275px"> <img src="https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image3.png" alt="Esri Logo" width="275px"> <img src="https://github.com/ArcGIS/TRIRIGA-Indoors-FME-ETL/blob/master/image4.png" alt="ArcGIS Indoors Logo" width="100px"> 
+<img src="./image1.png" alt="Safe Software Logo" width="275px"> <img src="./image3.png" alt="Esri Logo" width="275px"> <img src="./image4.png" alt="ArcGIS Indoors Logo" width="100px"> 
 
 ## Table of Contents
 
