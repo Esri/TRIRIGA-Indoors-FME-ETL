@@ -1,4 +1,4 @@
-# TRIRIGA-Indoors-FME-ETL
+# tririga-indoors-fme-etl
 
 **TRIRIGA to Indoors ETL -- User Guide**
 
