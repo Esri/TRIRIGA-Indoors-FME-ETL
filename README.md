@@ -2,7 +2,7 @@
 
 **TRIRIGA to Indoors ETL -- User Guide**
 
-<img src="./image1.png" alt="Safe Software Logo" width="275px"> <img src="./image3.png" alt="Esri Logo" width="275px"> <img src="./image4.png" alt="ArcGIS Indoors Logo" width="100px"> 
+<img src="assets/image1.png" alt="Safe Software Logo" width="275px"> <img src="assets/image3.png" alt="Esri Logo" width="275px"> <img src="assets/image4.png" alt="ArcGIS Indoors Logo" width="100px"> 
 
 ## Table of Contents
 
@@ -210,7 +210,7 @@ The spatial ETL tools require TRIRIGA Spec ID's for Buildings and Floors so retr
            1. Import FMW: checked
            2. Store tool with relative path: n/a
   8. When you are finished, you should have a toolbox that looks like this:  
-![Toolbox](./SS-Pro-Toolbox.png)
+![Toolbox](assets/SS-Pro-Toolbox.png)
 
 ### Run "Create TRIRIGA To Indoors Field Mapping Template" Spatial ETL Tool
 
@@ -302,18 +302,18 @@ Georeferencing is the process of spatially adjusting a CAD drawing without chang
   1. Add a new map to your ArcGIS Pro project.
   2. Change the coordinate system of the map. Right-click on Map in the Contents pane and select Properties.
   3. Under Coordinate Systems, change the CurrentXY Coordinate System to an appropriate coordinate system for your site.  
-![Change Coordinate System](./image5.png)
+![Change Coordinate System](assets/image5.png)
   4. Add the first floor CAD drawing from your desired facility to the map. In the \"Map\" tab, \"Layer\" group, click the \"Add Data\" button, then choose the CAD file.
   5. Select one of the CAD layers in the Contents pane. The CAD Layer Manage tab appears. Click it.
   6. Using the Define Projection tool in the CAD Layer tab, assign the CAD layer the same coordinate system you just specified for your map. Run the tool. The output is a .prj file in the same file location as your CAD drawing.  
-![Define Projection tool symbol](./image6.png)  
-![Define Projection tool prompt](./image7.png)
+![Define Projection tool symbol](assets/image6.png)  
+![Define Projection tool prompt](assets/image7.png)
   7. To assign the same coordinate system to all your CAD drawings, you can create a universal projection file. To do this, save and close your ArcGIS Pro project. Go to File Explorer, open the folder containing your CAD drawings and rename the .prj you created in the previous step to **esri_cad.prj**. This will assign every un-projected CAD drawing in your folder the same coordinate system. 
   8. Open your ArcGIS Pro project again.
   9. With a CAD layer selected, navigate to the CAD Layer tab and select Georeference. This contains tools that allow you to move, scale, rotate, and add control points. Use these tools as needed to scale and position your drawing.
   10. Once positioned, hit Save. This action creates a .wld file with the same name and location as your .dwg file. This file stores coordinates, allowing ArcGIS Pro to generate the floorplan automatically with the correct scale and position when re-opening it in a map. Georeferencing in ArcGIS Pro does not edit the CAD drawing.
   11. To give the rest of the floorplans in your facility the same scale and position, create a copy of the .wld from the last step for every level in your facility and rename them so that each .dwg has an accompanying .wld.  
-![](./image8.png)
+![](assets/image8.png)
   12. Optionally, to give all the CAD files in your folder the same scale, position, and rotation, you can instead create a _universal world file_. A universal world file defines the control points for all CAD datasets in the same folder that have not already been georeferenced. Rename the .wld that you created to **esri_cad.wld**. 
   13. Add the rest of your floorplans in ArcGIS Pro and verify that all floors within a facility line up properly by inspecting CAD features that remain consistent throughout all floors, such as stairways and elevator shafts. The floorplans may not line up depending on how the CAD drawings were authored. If the files do not line up, use the georeferencing tools to move the files appropriately.
 
@@ -326,18 +326,18 @@ Details feature class. The Details feature class contains line work
 which provides context to your Indoor map and typically includes walls,
 windows, doors, elevator shafts, stair treads, furniture, etc.
 
-![Example of Details layer in CAD](./image9.png)
+![Example of Details layer in CAD](assets/image9.png)
 
 You'll need to know the layer names that these line features are on. If
 you are unfamiliar with the drawing, you'll need to open it in ArcGIS
 Pro or your preferred drawing editor to determine them. In ArcGIS Pro,
 when first adding CAD to a map, layer types are grouped, for example:
 
-![Grouped Layers](./image10.png)
+![Grouped Layers](assets/image10.png)
 
 The layers you'll want are in the ***polyline*** type group, for example:
 
-![Layers](./image11.png)
+![Layers](assets/image11.png)
 
 Write down these names for use later in populating the **CAD Layer
 Mapping Template**.
