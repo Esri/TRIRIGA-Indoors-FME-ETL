@@ -144,7 +144,7 @@ This is a zip file including:
 4.  TRIRIGA To Indoors Field Mapping Template, populated with default Indoors fields (FieldMapping-default.xlsx)
 5.  CAD Layer Mapping Template (default/blank)
 6.  Transformation definition file for CSMAP (***WGS_1984\_(ITRF08)\_To_NAD_1983_2011.fme***). This is required for users that have data in NAD83(2011).
-    1. Copy this to your Documents\FME\CoordinateSystems folder and restart ArcGIS (and Interop, if open).
+    - Copy this to your Documents\FME\CoordinateSystems folder and restart ArcGIS (and Interop, if open).
 
 ### IBM TRIRIGA
 
@@ -180,9 +180,9 @@ This is a zip file including:
 The spatial ETL tools require TRIRIGA Spec ID's for Buildings and Floors so retrieve them.
 
   1. In TRIRIGA, locate a report that can output a list of all the **buildings** and their Spec ID's (e.g. My Reports, System Reports, title=All Active Locations).
-     1. Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
+     - Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
   2. In TRIRIGA, locate a report that can output a list of all the **floors** and their Spec ID's (e.g. My Reports, System Reports, title=Active Floors).
-     1. Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
+     - Verify it has the column \"System Record ID (triRecordIdSY)\", otherwise add it.
   3. Run the reports and download the results as Excel files.
   4. In the reports, take note of the System Record ID's for each **building** and **floor**. These System Record ID's are the Spec ID's used to populate the CAD Layer Mapping Template.
 
@@ -193,22 +193,21 @@ The spatial ETL tools require TRIRIGA Spec ID's for Buildings and Floors so retr
   3. In Windows Explorer, add the TRIRIGA to Indoors Spatial ETL Tools and Resources zip file to the project folder.
   4. Download the ETL tool workbench templates
      1. Create TRIRIGA To Indoors Field Mapping Template
-        1. Go to FME Hub and download "[Create TRIRIGA to Indoors Field Mapping Template](https://hub.safe.com/publishers/safe-lab/templates/create-tririga-to-indoors-field-mapping-template)"
+        - Go to FME Hub and download "[Create TRIRIGA to Indoors Field Mapping Template](https://hub.safe.com/publishers/safe-lab/templates/create-tririga-to-indoors-field-mapping-template)"
      2. Import TRIRIGA To Indoors
-        1. Go to FME Hub and download "[TRIRIGA to ArcGIS Indoors](https://hub.safe.com/publishers/safe-lab/templates/tririga-to-arcgis-indoors)"
+        - Go to FME Hub and download "[TRIRIGA to ArcGIS Indoors](https://hub.safe.com/publishers/safe-lab/templates/tririga-to-arcgis-indoors)"
   5. Convert each ETL tool workbench template (.fmwt) to a workbench (.fmw). Do this for each file.
      1. Open ArcGIS Pro, go to the Analysis menu, Workflows section, Data Interop submenu, Workbench item
      2. After the Data Interoperability Extension loads, open the workbench template (.fmwt file) and immediately save as a workbench (.fmw) file with the same name. 
   6. In the Pro project, create a new toolbox to contain the ETL tools.
-     1. Confirm these steps: In the Catalog pane, in the Project tab, right-click on Toolboxes and choose "New Toolbox". Name is something like "TRIRIGA to Indoors".
-  7. In the Pro project, create a spatial ETL tool for each workbench. For each workbench:
-     1. Right-click on the new toolbox you created in the previous step, then choose New, Spatial ETL Tool. Fill in the fields below.
-        1. Name: (name each workbench as we have, but without spaces, i.e. "CreateTRIRIGAToIndoorsFieldMappingTemplate" or "ImportTRIRIGAToIndoors")
-        2. Label: (name each workbench as we have, i.e. "Create TRIRIGA To Indoors Field Mapping Template" or "Import TRIRIGA To Indoors")
-        3. Workspace: (pick the .fmw file)
-        4. Options:
-           1. Import FMW: checked
-           2. Store tool with relative path: n/a
+     - Confirm these steps: In the Catalog pane, in the Project tab, right-click on Toolboxes and choose "New Toolbox". Name is something like "TRIRIGA to Indoors".
+  7. In the Pro project, create a spatial ETL tool for each workbench. For each workbench, right-click on the new toolbox you created in the previous step then choose New, Spatial ETL Tool.  Then fill in the fields below:
+     1. Name: (name each workbench as we have, but without spaces, i.e. "CreateTRIRIGAToIndoorsFieldMappingTemplate" or "ImportTRIRIGAToIndoors")
+     2. Label: (name each workbench as we have, i.e. "Create TRIRIGA To Indoors Field Mapping Template" or "Import TRIRIGA To Indoors")
+     3. Workspace: (pick the .fmw file)
+     4. Options:
+        1. Import FMW: checked
+        2. Store tool with relative path: n/a
   8. When you are finished, you should have a toolbox that looks like this:  
 ![Toolbox](assets/SS-Pro-Toolbox.png)
 
@@ -223,7 +222,7 @@ Microsoft Excel Workbook.
   2. Enter the required parameters  
      1. Host URL  
      2. Output Field Mapping Template  
-        1. Click the browse icon to choose the path where the generated
+        - Click the browse icon to choose the path where the generated
             file will be placed. Be sure to give it an extension of
             ".xlsx".  
      3. User Name  
@@ -570,20 +569,20 @@ This tool will update the target ArcGIS Indoors geodatabase.
   2. Enter the required parameters:
       1. Input Floor Plans
       2. Input Field Mapping Template File
-         1. Click the browse icon to choose the path where the file generated by the "Create TRIRIGA to Indoors Field Mapping Template" tool is located.
+         - Click the browse icon to choose the path where the file generated by the "Create TRIRIGA to Indoors Field Mapping Template" tool is located.
       3. Input CAD Layer Mapping Template File
-         1. Click the browse icon to choose the path where the file is located.
+         - Click the browse icon to choose the path where the file is located.
       4. Host URL
       5. User Name
       6. Password
       7. Rebuild Facilities from Levels
-         1. This will rebuild the geometries of the modified/added facilities based on the geometries of their levels
+         - This will rebuild the geometries of the modified/added facilities based on the geometries of their levels
       8. Rebuild Sites from Facilities
-         1. This will rebuild the geometries of the modified/added sites based on the geometries of their facilities
+         - This will rebuild the geometries of the modified/added sites based on the geometries of their facilities
       9. Target Indoors Geodatabase
-         1. Select the target file geodatabase to update (if you don't select an enterprise geodatabase below)
+         - Select the target file geodatabase to update (if you don't select an enterprise geodatabase below)
       10. Target Indoors SDE Connection File
-          1. Select the target Enterprise geodatabase to update (if you don't select a file geodatabase above) 
+          - Select the target Enterprise geodatabase to update (if you don't select a file geodatabase above)
   3. Run the tool. Please be patient as the time this takes varies depending on the size of the TRIRIGA system configuration and your network connection. Once complete, you should see a message stating that the translation was successful along with statistics about features written to the geodatabase.
 
 #### 
@@ -592,8 +591,7 @@ This tool will update the target ArcGIS Indoors geodatabase.
 
 -   In Indoors, the People feature class's EMAIL field must be unique, but this may not be a requirement of TRIRIGA.
 -   The ETL creates an inner and outer source type for each level leaving multiple levels with the same level_id. The Indoors network tools (e.g. Generate Indoor Pathways) require unique level_id\'s and they do not honor definition queries as of ArcGIS Pro 2.7. Here is a workaround to perform after the Indoors is populated and before you use the Generate Indoor Pathways geoprocessing tool:
-    1. Optionally make a backup of the Levels feature class  
-        1. Make a copy of the Levels feature class in the Indoors feature dataset and rename the copy as "LevelsBackup". Change its alias to "LevelsBackup" to avoid confusion if ever added to the map.  
+    1. Optionally make a backup of the Levels feature class. Make a copy of the Levels feature class in the Indoors feature dataset and rename the copy as "LevelsBackup". Change its alias to "LevelsBackup" to avoid confusion if ever added to the map.  
     2.   Delete all Level features where SOURCE_TYPE = "Inner".
     3.   Run the Generate Indoor Pathways tool choosing "Levels" for the
         "Input Level Features" parameter as usual.
@@ -616,7 +614,7 @@ Below are some automatically mapped fields. In addition to these, parent ID's wi
          2. LEVELS_ABOVE_GROUND
          3. LEVELS_TOTAL
       2. DETAILS:
-         1. DETAIL_ID = LEVEL_ID + \".Details.\" + str(counter + 10000)
+         - DETAIL_ID = LEVEL_ID + \".Details.\" + str(counter + 10000)
       3. PEOPLE:
          1. (various location fields)
          2. AREA_ID: Populated with the TRIRIGA Spec ID for their primary/secondary location space group if assigned one.
@@ -635,7 +633,7 @@ Below are some automatically mapped fields. In addition to these, parent ID's wi
                  2. not part of an area
                  3. assigned to a person (i.e. any People have UNIT_ID set to the Unit)
              4. "not assignable" if a space is
-                 1. not a hotel or none above (implies not assignable, but not checked specifically)
+                 - not a hotel or none above (implies not assignable, but not checked specifically)
          3. ASSIGNABLE: Set to a space's TRIRIGA's triCurrentSpaceClass.triAssignableBL (extended geodatabase only)
       5. AREAS:
          1. AREA_ID: Populated with the TRIRIGA Spec ID for the space group
