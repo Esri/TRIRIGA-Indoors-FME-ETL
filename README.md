@@ -130,7 +130,7 @@ their sub-feature classes.
 There are a couple FME workbench templates you'll need to download from the [FME Hub](https://hub.safe.com/) shown below. We'll be converting these workbench templates into workbenches later on.
 
 1. Create TRIRIGA To Indoors Field Mapping Template
-    - Called "???" in FME Hub
+    - Called "Create TRIRIGA to Indoors Field Mapping Template" in FME Hub
 2. Import TRIRIGA To Indoors
     - Called "TRIRIGAtoArcGISIndoors" in FME Hub
 
