@@ -607,38 +607,38 @@ Yes. It has full administrative rights so can read everything in the system incl
 
 Below are some automatically mapped fields. In addition to these, parent ID's will be automatically mapped as well.
 
-  1. TRIRIGA Spec ID mapped to the unique ID (e.g. SITE_ID) and in the TRIRIGA_SPEC_ID field in the ***Indoors Geodatabase Template (extended Indoors for TRIRIGA)*** for applicable FCs/Tables.
-  2. Calculated:
-      1. FACILITIES:
-         1. ROTATION
-         2. LEVELS_ABOVE_GROUND
-         3. LEVELS_TOTAL
-      2. DETAILS:
-         - DETAIL_ID = LEVEL_ID + \".Details.\" + str(counter + 10000)
-      3. PEOPLE:
-         1. (various location fields)
-         2. AREA_ID: Populated with the TRIRIGA Spec ID for their primary/secondary location space group if assigned one.
-      4. UNITS:
-         1. AREA_ID: Populated with the TRIRIGA Spec ID for their space group if assigned one. In this case, all other location fields will be NULL.
-         2. ASSIGNMENT_TYPE:
-             1. "hotel" if a space is all of these
-                 1. assignable
-                 2. part of an area (has AREA_ID)
-             2. "none" if a space is all of these
-                 1. assignable
-                 2. not part of an area
-                 3. not assigned to a person (i.e. No People have UNIT_ID set to the Unit) (future support)
-             3. "office" if a space is all of these (future support)
-                 1. assignable
-                 2. not part of an area
-                 3. assigned to a person (i.e. any People have UNIT_ID set to the Unit)
-             4. "not assignable" if a space is
-                 - not a hotel or none above (implies not assignable, but not checked specifically)
-         3. ASSIGNABLE: Set to a space's TRIRIGA's triCurrentSpaceClass.triAssignableBL (extended geodatabase only)
-      5. AREAS:
-         1. AREA_ID: Populated with the TRIRIGA Spec ID for the space group
-         2. AREA_NAME: Populated with TRIRIGA's space group name (RecordInformation.triNameTX)
-         3. AREA_TYPE: "hotel"
+1. TRIRIGA Spec ID mapped to the unique ID (e.g. SITE_ID) and in the TRIRIGA_SPEC_ID field in the ***Indoors Geodatabase Template (extended Indoors for TRIRIGA)*** for applicable FCs/Tables.
+2. Calculated:
+    1. FACILITIES:
+       1. ROTATION
+       2. LEVELS_ABOVE_GROUND
+       3. LEVELS_TOTAL
+    2. DETAILS:
+       1. DETAIL_ID = LEVEL_ID + \".Details.\" + str(counter + 10000)
+    3. PEOPLE:
+       1. (various location fields)
+       2. AREA_ID: Populated with the TRIRIGA Spec ID for their primary/secondary location space group if assigned one.
+    4. UNITS:
+       1. AREA_ID: Populated with the TRIRIGA Spec ID for their space group if assigned one. In this case, all other location fields will be NULL.
+       2. ASSIGNMENT_TYPE:
+          1. "hotel" if a space is all of these
+             - assignable
+             - part of an area (has AREA_ID)
+          2. "none" if a space is all of these
+             - assignable
+             - not part of an area
+             - not assigned to a person (i.e. No People have UNIT_ID set to the Unit) (future support)
+          3. "office" if a space is all of these (future support)
+             - assignable
+             - not part of an area
+             - assigned to a person (i.e. any People have UNIT_ID set to the Unit)
+          4. "not assignable" if a space is
+             - not a hotel or none above (implies not assignable, but not checked specifically)
+       3. ASSIGNABLE: Set to a space's TRIRIGA's triCurrentSpaceClass.triAssignableBL (extended geodatabase only)
+    5. AREAS:
+       1. AREA_ID: Populated with the TRIRIGA Spec ID for the space group
+       2. AREA_NAME: Populated with TRIRIGA's space group name (RecordInformation.triNameTX)
+       3. AREA_TYPE: "hotel"
 
 ## Issues
 
