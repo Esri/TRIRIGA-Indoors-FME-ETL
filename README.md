@@ -193,9 +193,9 @@ The spatial ETL tools require TRIRIGA Spec ID's for Buildings and Floors so retr
   3. In Windows Explorer, add the TRIRIGA to Indoors Spatial ETL Tools and Resources zip file to the project folder.
   4. Download the ETL tool workbench templates
      1. Create TRIRIGA To Indoors Field Mapping Template
-        1. Go to FME Hub and download "???"
+        1. Go to FME Hub and download "[Create TRIRIGA to Indoors Field Mapping Template](https://hub.safe.com/publishers/safe-lab/templates/create-tririga-to-indoors-field-mapping-template)"
      2. Import TRIRIGA To Indoors
-        1. Go to FME Hub and download "[TRIRIGAtoArcGISIndoors](https://hub.safe.com/publishers/safe-lab/templates/tririgatoarcgisindoors)"
+        1. Go to FME Hub and download "[TRIRIGA to ArcGIS Indoors](https://hub.safe.com/publishers/safe-lab/templates/tririga-to-arcgis-indoors)"
   5. Convert each ETL tool workbench template (.fmwt) to a workbench (.fmw). Do this for each file.
      1. Open ArcGIS Pro, go to the Analysis menu, Workflows section, Data Interop submenu, Workbench item
      2. After the Data Interoperability Extension loads, open the workbench template (.fmwt file) and immediately save as a workbench (.fmw) file with the same name. 
