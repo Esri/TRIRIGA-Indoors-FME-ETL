@@ -94,10 +94,10 @@ map") to map the TRIRIGA attributes to the desired Indoors attributes.
 The tool assumes and requires that the CAD files are the ones "attached"
 and "synced" using the TRIRIGA CAD Integrator plugin.
 
-The CAD data contains unique TRIRIGA Spec ID's (attached as XDATA
-records linked to the AutoCAD entity ID) for each feature that can be
-extracted in the spatial ETL tool. These ID's are used to query the
-TRIRIGA database for all the TRIRIGA information for each record's
+The CAD data contains unique TRIRIGA Spec ID's (stored as Xrecords in an
+Extension Dictionary which reference the AutoCAD entity ID) for each feature
+that can be extracted in the spatial ETL tool. These ID's are used to query
+the TRIRIGA database for all the TRIRIGA information for each record's
 associated CAD features. The CAD data, TRIRIGA record information, and
 the field map are used to populate the corresponding records in the
 Indoors geodatabase.
